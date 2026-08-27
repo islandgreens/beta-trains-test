@@ -28,10 +28,17 @@ the dates you enter:
 ## Color system
 
 - Blue / green / orange mark a beta that's exclusive to PlayStation / Xbox / PC respectively.
-- Gold marks anything available on more than one platform. This is expected to be the
+- Purple marks anything available on more than one platform. This is expected to be the
   majority of entries, so the three brand colors are reserved for genuine exclusives
   rather than diluted across everything.
 - Grey (solid) means the signup deadline has passed. Grey (dashed) means the beta has concluded.
+
+## Filtering
+
+Two independent filter rows sit above the calendar: platform (PlayStation / Xbox / PC,
+inclusive, matches any entry that supports the selected platform) and event type
+(opening soon / signups open / live now). Both use the same pressed-button pattern:
+a filled, glowing chip means it's active. Combining filters narrows by both at once.
 
 ## Current data
 

@@ -1,7 +1,5 @@
 /* ---------- date helpers ---------- */
 
-// Parses "YYYY-MM-DD" as a local-midnight Date, avoiding the UTC shift
-// that new Date("YYYY-MM-DD") introduces in some timezones.
 function parseYMD(str) {
   const [y, m, d] = str.split("-").map(Number);
   return new Date(y, m - 1, d);
@@ -67,9 +65,6 @@ function computeStatus(entry, today) {
   return "signup-open";
 }
 
-// The color that represents this entry when it isn't overridden by a
-// grey/concluded state: single platform gets its brand color, anything
-// with more than one platform (the majority case) gets the neutral color.
 function primaryColorVar(entry) {
   if (entry.platforms.length === 1) return PLATFORM_COLOR_VAR[entry.platforms[0]];
   return "--accent-cross";
@@ -92,26 +87,29 @@ const today = startOfToday();
 let viewMonth = today.getMonth();
 let viewYear = today.getFullYear();
 const activePlatforms = new Set();
+const activeEventTypes = new Set(); // subset of: upcoming, signup-open, beta-live
 
 /* ---------- rendering: weekday header ---------- */
 
 function renderWeekdayHeader() {
-  const el = document.getElementById("weekdays");
-  el.innerHTML = WEEKDAY_LABELS.map(d => `<span>${d}</span>`).join("");
+  document.getElementById("weekdays").innerHTML =
+    WEEKDAY_LABELS.map(d => `<span>${d}</span>`).join("");
 }
 
-/* ---------- rendering: calendar grid ---------- */
+/* ---------- filtering ---------- */
 
-function entryPassesFilter(entry) {
-  if (activePlatforms.size === 0) return true;
-  return entry.platforms.some(p => activePlatforms.has(p));
+function entryPassesFilters(entry, status) {
+  const platformOk = activePlatforms.size === 0 || entry.platforms.some(p => activePlatforms.has(p));
+  const eventOk = activeEventTypes.size === 0 || activeEventTypes.has(status);
+  return platformOk && eventOk;
 }
 
 function getEntriesTouchingDate(date) {
   const results = [];
   BETA_DATA.forEach(entry => {
-    if (!entryPassesFilter(entry)) return;
     const status = computeStatus(entry, today);
+    if (!entryPassesFilters(entry, status)) return;
+
     const bSpan = betaSpan(entry);
     const sSpan = signupSpan(entry);
     if (inRange(date, bSpan.start, bSpan.end)) {
@@ -136,23 +134,19 @@ function barStyleFor(entry, status, barType) {
   return { classes, colorVar };
 }
 
+/* ---------- rendering: calendar grid ---------- */
+
 function renderCalendarGrid() {
   const grid = document.getElementById("calendar-grid");
   const monthLabel = document.getElementById("month-label");
   monthLabel.textContent = `${MONTH_LABELS[viewMonth]} ${viewYear}`;
-  monthLabel.classList.remove("flap-in");
-  void monthLabel.offsetWidth; // restart animation
-  monthLabel.classList.add("flap-in");
 
   const firstOfMonth = new Date(viewYear, viewMonth, 1);
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const leadingEmpty = firstOfMonth.getDay();
 
   let html = "";
-
-  for (let i = 0; i < leadingEmpty; i++) {
-    html += `<div class="day day--empty"></div>`;
-  }
+  for (let i = 0; i < leadingEmpty; i++) html += `<div class="day day--empty"></div>`;
 
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(viewYear, viewMonth, day);
@@ -181,8 +175,7 @@ function renderCalendarGrid() {
 
   grid.querySelectorAll(".day:not(.day--empty)").forEach(cell => {
     cell.addEventListener("click", () => {
-      const date = new Date(cell.getAttribute("data-date"));
-      openPanelForDate(date);
+      openPanelForDate(new Date(cell.getAttribute("data-date")));
     });
   });
 }
@@ -241,14 +234,10 @@ function openPanelForDate(date) {
 
   title.textContent = date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 
-  if (touching.length === 0) {
-    body.innerHTML = `<p class="panel__empty">No betas touch this date.</p>`;
-  } else {
-    body.innerHTML = touching
-      .sort((a, b) => a.entry.title.localeCompare(b.entry.title))
-      .map(({ entry, status }) => renderEntryCard(entry, status))
-      .join("");
-  }
+  body.innerHTML = touching.length === 0
+    ? `<p class="panel__empty">No betas touch this date${activePlatforms.size || activeEventTypes.size ? " with the current filters" : ""}.</p>`
+    : touching.sort((a, b) => a.entry.title.localeCompare(b.entry.title))
+        .map(({ entry, status }) => renderEntryCard(entry, status)).join("");
 
   panel.hidden = false;
   overlay.hidden = false;
@@ -265,7 +254,6 @@ function closePanel() {
 function renderClock() {
   const label = document.getElementById("board-clock-value");
   label.textContent = today.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
-  label.classList.add("flap-in");
 }
 
 function setupControls() {
@@ -284,12 +272,15 @@ function setupControls() {
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.setAttribute("aria-pressed", "false");
     btn.addEventListener("click", () => {
-      const platform = btn.getAttribute("data-platform");
-      if (activePlatforms.has(platform)) {
-        activePlatforms.delete(platform);
+      const group = btn.getAttribute("data-filter-group");
+      const set = group === "platform" ? activePlatforms : activeEventTypes;
+      const key = group === "platform" ? btn.getAttribute("data-platform") : btn.getAttribute("data-event");
+
+      if (set.has(key)) {
+        set.delete(key);
         btn.setAttribute("aria-pressed", "false");
       } else {
-        activePlatforms.add(platform);
+        set.add(key);
         btn.setAttribute("aria-pressed", "true");
       }
       renderCalendarGrid();
@@ -298,9 +289,7 @@ function setupControls() {
 
   document.getElementById("panel-close").addEventListener("click", closePanel);
   document.getElementById("overlay").addEventListener("click", closePanel);
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") closePanel();
-  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closePanel(); });
 }
 
 /* ---------- init ---------- */
