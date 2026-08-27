@@ -135,11 +135,19 @@ button { font-family: inherit; cursor: pointer; }
   stroke-dasharray: 3 7;
 }
 
-.train__unit { transform: translateX(-220px); }
+.train__unit {
+  transform: translateX(-220px);
+  /* TEMP: forced on regardless of prefers-reduced-motion for testing.
+     Revisit before going live — gate this behind the media query below
+     again so the animation respects the visitor's system setting. */
+  animation: train-travel 13s linear infinite;
+}
 
+/*
 @media (prefers-reduced-motion: no-preference) {
   .train__unit { animation: train-travel 13s linear infinite; }
 }
+*/
 
 @keyframes train-travel {
   from { transform: translateX(-220px); }
@@ -336,6 +344,11 @@ main { padding: 24px 28px 40px; max-width: 1100px; margin: 0 auto; }
   background: var(--panel); border-left: 1px solid var(--line);
   z-index: 11; display: flex; flex-direction: column;
 }
+
+/* Setting display:flex above overrides the hidden attribute's own
+   display:none per the HTML spec, so this more specific rule is required
+   for panel.hidden = true to actually hide it again. */
+.panel[hidden] { display: none; }
 
 .panel__header {
   display: flex; justify-content: space-between; align-items: flex-start;
