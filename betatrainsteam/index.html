@@ -14,131 +14,190 @@
 
 <header class="board">
   <div class="board__frame">
-    <svg class="scroll scroll--tl" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
-    <svg class="scroll scroll--tr" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
-    <svg class="scroll scroll--bl" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
-    <svg class="scroll scroll--br" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
-    <span class="rivet-strip rivet-strip--top" aria-hidden="true"></span>
-    <span class="rivet-strip rivet-strip--bottom" aria-hidden="true"></span>
-    <span class="rivet-strip rivet-strip--left" aria-hidden="true"></span>
-    <span class="rivet-strip rivet-strip--right" aria-hidden="true"></span>
+    <!-- ornate brass scrollwork frame, drawn as one SVG behind the board contents -->
+    <svg class="board__ornament" viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="brassEdge" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e5c884"/>
+          <stop offset="45%" stop-color="#b08d47"/>
+          <stop offset="100%" stop-color="#7a5c28"/>
+        </linearGradient>
+      </defs>
+      <!-- outer bead -->
+      <rect x="6" y="6" width="988" height="388" rx="26" fill="none" stroke="url(#brassEdge)" stroke-width="7"/>
+      <rect x="15" y="15" width="970" height="370" rx="20" fill="none" stroke="#7a5c28" stroke-width="1.5" opacity="0.7"/>
+      <!-- top centre cartouche -->
+      <path d="M470 8 C480 -6 520 -6 530 8 C540 20 512 22 500 22 C488 22 460 20 470 8 Z" fill="url(#brassEdge)"/>
+      <!-- corner scrolls: top-left -->
+      <path d="M14 70 C14 34 34 14 70 14 C48 20 30 30 24 52 C40 44 54 46 60 58 C48 54 36 58 32 72 C40 66 50 68 52 78 C40 74 20 80 14 70 Z" fill="url(#brassEdge)"/>
+      <!-- top-right -->
+      <path d="M986 70 C986 34 966 14 930 14 C952 20 970 30 976 52 C960 44 946 46 940 58 C952 54 964 58 968 72 C960 66 950 68 948 78 C960 74 980 80 986 70 Z" fill="url(#brassEdge)"/>
+      <!-- bottom-left -->
+      <path d="M14 330 C14 366 34 386 70 386 C48 380 30 370 24 348 C40 356 54 354 60 342 C48 346 36 342 32 328 C40 334 50 332 52 322 C40 326 20 320 14 330 Z" fill="url(#brassEdge)"/>
+      <!-- bottom-right -->
+      <path d="M986 330 C986 366 966 386 930 386 C952 380 970 370 976 348 C960 356 946 354 940 342 C952 346 964 342 968 328 C960 334 950 332 948 322 C960 326 980 320 986 330 Z" fill="url(#brassEdge)"/>
+      <!-- side flourishes -->
+      <path d="M8 200 C-2 188 -2 212 8 200 M8 176 C24 182 24 218 8 224" fill="none" stroke="url(#brassEdge)" stroke-width="4"/>
+      <path d="M992 200 C1002 188 1002 212 992 200 M992 176 C976 182 976 218 992 224" fill="none" stroke="url(#brassEdge)" stroke-width="4"/>
+    </svg>
 
-    <div class="board__row">
-      <div class="board__wordmark">
-        <div class="board__title-row">
-          <span class="speed-marks speed-marks--left" aria-hidden="true"><i></i><i></i><i></i></span>
-          <h1 class="board__title">The Beta Train</h1>
-          <span class="speed-marks speed-marks--right" aria-hidden="true"><i></i><i></i><i></i></span>
+    <div class="board__inner">
+      <div class="board__row">
+        <div class="board__wordmark">
+          <div class="board__title-row">
+            <span class="speed-marks speed-marks--left" aria-hidden="true"><i></i><i></i><i></i></span>
+            <h1 class="board__title">The Beta Train</h1>
+            <span class="speed-marks speed-marks--right" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+          <span class="board__blurb">Never miss your departure &mdash; every beta on one timetable</span>
+          <span class="board__subtitle">Boarding calls for PlayStation, Xbox &amp; PC beta tests</span>
         </div>
-        <span class="board__subtitle">Boarding calls for PlayStation, Xbox &amp; PC beta tests</span>
+        <div class="board__clock" id="board-clock" aria-live="off">
+          <span class="board__clock-label">Today</span>
+          <span class="board__clock-value" id="board-clock-value">&mdash;</span>
+        </div>
       </div>
-      <div class="board__clock" id="board-clock" aria-live="off">
-        <span class="board__clock-label">Today</span>
-        <span class="board__clock-value" id="board-clock-value">&mdash;</span>
+
+      <div class="board__engine" aria-hidden="true">
+        <svg class="train" viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+          <defs>
+            <linearGradient id="boilerBody" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5c8560"/>
+              <stop offset="30%" stop-color="#3e6443"/>
+              <stop offset="55%" stop-color="#2c4a30"/>
+              <stop offset="100%" stop-color="#16281a"/>
+            </linearGradient>
+            <linearGradient id="boilerSheen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="ironFace" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3a322a"/>
+              <stop offset="100%" stop-color="#0f0b08"/>
+            </linearGradient>
+            <radialGradient id="wheelSteel" cx="42%" cy="38%" r="65%">
+              <stop offset="0%" stop-color="#4a4038"/>
+              <stop offset="70%" stop-color="#241d17"/>
+              <stop offset="100%" stop-color="#0c0806"/>
+            </radialGradient>
+            <radialGradient id="brassKnob" cx="38%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#f0d698"/>
+              <stop offset="60%" stop-color="#b08d47"/>
+              <stop offset="100%" stop-color="#6b4f22"/>
+            </radialGradient>
+            <radialGradient id="lampBeam" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff2cc" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#fff2cc" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="brassBand" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e5c884"/>
+              <stop offset="50%" stop-color="#b08d47"/>
+              <stop offset="100%" stop-color="#7a5c28"/>
+            </linearGradient>
+          </defs>
+
+          <line class="track-line" x1="6" y1="198" x2="494" y2="198"/>
+          <ellipse class="train__shadow" cx="245" cy="200" rx="215" ry="9"/>
+
+          <g class="train__smoke">
+            <circle cx="112" cy="34" r="10"/>
+            <circle cx="126" cy="18" r="13"/>
+            <circle cx="148" cy="2" r="16"/>
+            <circle cx="176" cy="-12" r="18"/>
+          </g>
+
+          <!-- tender with coal -->
+          <rect x="322" y="92" width="122" height="66" rx="5" fill="url(#ironFace)" stroke="#0c0806" stroke-width="1.5"/>
+          <rect x="322" y="120" width="122" height="8" fill="url(#brassBand)"/>
+          <ellipse cx="346" cy="88" rx="17" ry="10" fill="#0e0a07"/>
+          <ellipse cx="368" cy="83" rx="19" ry="11" fill="#161010"/>
+          <ellipse cx="392" cy="86" rx="16" ry="10" fill="#0e0a07"/>
+          <ellipse cx="414" cy="90" rx="14" ry="9" fill="#161010"/>
+          <ellipse cx="356" cy="82" rx="4" ry="3" fill="#3a2f26"/>
+          <ellipse cx="400" cy="85" rx="3" ry="2" fill="#3a2f26"/>
+
+          <!-- cab -->
+          <rect x="252" y="52" width="72" height="12" rx="3" fill="url(#ironFace)"/>
+          <rect x="258" y="60" width="60" height="96" rx="3" fill="url(#ironFace)" stroke="#0c0806" stroke-width="1.5"/>
+          <rect x="270" y="76" width="26" height="24" rx="3" fill="#111" stroke="url(#brassBand)" stroke-width="2"/>
+          <rect x="272" y="78" width="11" height="22" fill="#2b4660" opacity="0.6"/>
+
+          <!-- boiler -->
+          <rect x="62" y="94" width="200" height="58" rx="29" fill="url(#boilerBody)" stroke="#0f1c12" stroke-width="2"/>
+          <path d="M70 100 Q160 90 254 100 L254 116 Q160 108 70 116 Z" fill="url(#boilerSheen)"/>
+          <!-- boiler bands -->
+          <rect x="104" y="94" width="5" height="58" fill="#16281a" opacity="0.7"/>
+          <rect x="150" y="94" width="5" height="58" fill="#16281a" opacity="0.7"/>
+          <rect x="196" y="94" width="5" height="58" fill="#16281a" opacity="0.7"/>
+          <!-- rivets -->
+          <g fill="#e5c884" opacity="0.75">
+            <circle cx="78" cy="100" r="1.8"/><circle cx="92" cy="100" r="1.8"/><circle cx="120" cy="100" r="1.8"/>
+            <circle cx="134" cy="100" r="1.8"/><circle cx="166" cy="100" r="1.8"/><circle cx="180" cy="100" r="1.8"/>
+            <circle cx="212" cy="100" r="1.8"/><circle cx="226" cy="100" r="1.8"/><circle cx="244" cy="100" r="1.8"/>
+            <circle cx="78" cy="146" r="1.8"/><circle cx="92" cy="146" r="1.8"/><circle cx="120" cy="146" r="1.8"/>
+            <circle cx="134" cy="146" r="1.8"/><circle cx="166" cy="146" r="1.8"/><circle cx="180" cy="146" r="1.8"/>
+            <circle cx="212" cy="146" r="1.8"/><circle cx="226" cy="146" r="1.8"/><circle cx="244" cy="146" r="1.8"/>
+          </g>
+
+          <!-- steam dome + safety -->
+          <ellipse cx="176" cy="86" rx="18" ry="16" fill="url(#brassKnob)"/>
+          <rect x="168" y="68" width="16" height="8" rx="2" fill="url(#brassBand)"/>
+          <ellipse cx="128" cy="88" rx="11" ry="10" fill="url(#brassKnob)"/>
+
+          <!-- smokestack -->
+          <path d="M92 96 L96 46 L114 46 L118 96 Z" fill="url(#ironFace)"/>
+          <rect x="88" y="38" width="34" height="12" rx="3" fill="url(#brassBand)"/>
+          <ellipse cx="105" cy="38" rx="17" ry="4" fill="#3a322a"/>
+
+          <!-- smokebox front + buffer -->
+          <circle cx="60" cy="123" r="30" fill="url(#ironFace)" stroke="#0c0806" stroke-width="2"/>
+          <circle cx="60" cy="123" r="30" fill="none" stroke="url(#brassBand)" stroke-width="2" opacity="0.5"/>
+          <circle cx="58" cy="120" r="22" fill="url(#lampBeam)"/>
+          <circle cx="60" cy="110" r="9" fill="#fff2cc"/>
+          <circle cx="60" cy="110" r="9" fill="none" stroke="url(#brassBand)" stroke-width="2.5"/>
+          <!-- hinge dogs on smokebox door -->
+          <circle cx="60" cy="123" r="3" fill="url(#brassKnob)"/>
+          <line x1="60" y1="100" x2="60" y2="146" stroke="#0c0806" stroke-width="1" opacity="0.5"/>
+          <line x1="37" y1="123" x2="83" y2="123" stroke="#0c0806" stroke-width="1" opacity="0.5"/>
+
+          <!-- pilot / cow-catcher -->
+          <path d="M30 176 L60 150 L74 150 L74 158 L44 182 Z" fill="url(#ironFace)"/>
+          <path d="M36 176 L58 158 M44 178 L64 160 M52 180 L70 162" stroke="#0c0806" stroke-width="1.4" opacity="0.6"/>
+          <rect x="26" y="150" width="12" height="22" rx="2" fill="url(#ironFace)"/>
+          <circle cx="32" cy="150" r="5" fill="url(#brassKnob)"/>
+
+          <!-- running board -->
+          <rect x="30" y="156" width="298" height="8" fill="url(#ironFace)"/>
+          <rect x="30" y="156" width="298" height="2" fill="url(#brassBand)" opacity="0.5"/>
+
+          <!-- side rod -->
+          <rect x="98" y="170" width="146" height="6" rx="3" fill="url(#brassBand)"/>
+          <line x1="72" y1="132" x2="170" y2="172" stroke="url(#brassBand)" stroke-width="6" stroke-linecap="round"/>
+
+          <!-- driving wheels -->
+          <circle cx="100" cy="172" r="21" fill="url(#wheelSteel)" stroke="#e5c884" stroke-width="2"/>
+          <circle cx="172" cy="172" r="33" fill="url(#wheelSteel)" stroke="#e5c884" stroke-width="3"/>
+          <circle cx="244" cy="172" r="21" fill="url(#wheelSteel)" stroke="#e5c884" stroke-width="2"/>
+          <circle cx="346" cy="174" r="16" fill="url(#wheelSteel)" stroke="#b08d47" stroke-width="2"/>
+          <circle cx="402" cy="174" r="16" fill="url(#wheelSteel)" stroke="#b08d47" stroke-width="2"/>
+
+          <!-- spokes -->
+          <g stroke="#8a6d34" stroke-width="2" opacity="0.85">
+            <g><line x1="100" y1="153" x2="100" y2="191"/><line x1="81" y1="172" x2="119" y2="172"/><line x1="87" y1="159" x2="113" y2="185"/><line x1="87" y1="185" x2="113" y2="159"/></g>
+            <g><line x1="172" y1="141" x2="172" y2="203"/><line x1="141" y1="172" x2="203" y2="172"/><line x1="150" y1="150" x2="194" y2="194"/><line x1="150" y1="194" x2="194" y2="150"/><line x1="158" y1="145" x2="186" y2="199"/><line x1="158" y1="199" x2="186" y2="145"/></g>
+            <g><line x1="244" y1="153" x2="244" y2="191"/><line x1="225" y1="172" x2="263" y2="172"/><line x1="231" y1="159" x2="257" y2="185"/><line x1="231" y1="185" x2="257" y2="159"/></g>
+          </g>
+
+          <!-- crank pins + hubs -->
+          <circle cx="100" cy="172" r="5" fill="url(#brassKnob)"/>
+          <circle cx="172" cy="172" r="6" fill="url(#brassKnob)"/>
+          <circle cx="244" cy="172" r="5" fill="url(#brassKnob)"/>
+          <circle cx="346" cy="174" r="4" fill="url(#brassKnob)"/>
+          <circle cx="402" cy="174" r="4" fill="url(#brassKnob)"/>
+          <circle cx="120" cy="176" r="3.5" fill="#e5c884"/>
+          <circle cx="192" cy="176" r="3.5" fill="#e5c884"/>
+        </svg>
       </div>
-    </div>
-
-    <div class="board__engine" aria-hidden="true">
-      <svg class="train" viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
-        <defs>
-          <linearGradient id="boilerGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#4a7350"/>
-            <stop offset="100%" stop-color="#233a27"/>
-          </linearGradient>
-          <linearGradient id="wheelGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#332a22"/>
-            <stop offset="100%" stop-color="#120e0b"/>
-          </linearGradient>
-          <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ffe3a3" stop-opacity="0.9"/>
-            <stop offset="100%" stop-color="#ffe3a3" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-
-        <line class="track-line" x1="10" y1="190" x2="470" y2="190"/>
-        <ellipse class="train__shadow" cx="230" cy="192" rx="200" ry="8"/>
-
-        <g class="train__smoke">
-          <circle cx="95" cy="30" r="9"/>
-          <circle cx="108" cy="16" r="12"/>
-          <circle cx="128" cy="2" r="15"/>
-          <circle cx="154" cy="-10" r="17"/>
-        </g>
-
-        <!-- tender -->
-        <rect class="train__tender" x="310" y="90" width="115" height="62" rx="4"/>
-        <rect class="train__trim" x="310" y="118" width="115" height="7"/>
-        <ellipse class="train__coal" cx="335" cy="86" rx="16" ry="9"/>
-        <ellipse class="train__coal" cx="355" cy="82" rx="18" ry="10"/>
-        <ellipse class="train__coal" cx="378" cy="85" rx="15" ry="9"/>
-        <ellipse class="train__coal" cx="398" cy="88" rx="13" ry="8"/>
-
-        <!-- cab -->
-        <rect class="train__cab-roof" x="244" y="54" width="68" height="11" rx="2"/>
-        <rect class="train__cab" x="250" y="60" width="56" height="92" rx="2"/>
-        <rect class="train__cab-window" x="261" y="76" width="24" height="22" rx="3"/>
-
-        <!-- boiler -->
-        <rect class="train__boiler" x="60" y="95" width="192" height="52" rx="26" fill="url(#boilerGrad)"/>
-        <circle class="train__rivet" cx="75" cy="101" r="2"/><circle class="train__rivet" cx="95" cy="101" r="2"/>
-        <circle class="train__rivet" cx="115" cy="101" r="2"/><circle class="train__rivet" cx="135" cy="101" r="2"/>
-        <circle class="train__rivet" cx="155" cy="101" r="2"/><circle class="train__rivet" cx="175" cy="101" r="2"/>
-        <circle class="train__rivet" cx="195" cy="101" r="2"/><circle class="train__rivet" cx="215" cy="101" r="2"/>
-        <circle class="train__rivet" cx="235" cy="101" r="2"/>
-        <circle class="train__rivet" cx="75" cy="141" r="2"/><circle class="train__rivet" cx="95" cy="141" r="2"/>
-        <circle class="train__rivet" cx="115" cy="141" r="2"/><circle class="train__rivet" cx="135" cy="141" r="2"/>
-        <circle class="train__rivet" cx="155" cy="141" r="2"/><circle class="train__rivet" cx="175" cy="141" r="2"/>
-        <circle class="train__rivet" cx="195" cy="141" r="2"/><circle class="train__rivet" cx="215" cy="141" r="2"/>
-        <circle class="train__rivet" cx="235" cy="141" r="2"/>
-
-        <!-- steam dome -->
-        <ellipse class="train__dome" cx="168" cy="88" rx="17" ry="15"/>
-        <rect class="train__dome-cap" x="160" y="72" width="16" height="6" rx="2"/>
-
-        <!-- smokestack -->
-        <rect class="train__stack" x="88" y="42" width="20" height="56" rx="3"/>
-        <rect class="train__stack-cap" x="82" y="36" width="32" height="11" rx="3"/>
-
-        <!-- buffer beam + pilot -->
-        <rect class="train__buffer" x="26" y="150" width="16" height="20" rx="2"/>
-        <path class="train__catcher" d="M22 178 L58 150 L66 150 L66 160 L34 184 Z"/>
-
-        <!-- headlamp -->
-        <circle cx="58" cy="118" r="20" fill="url(#lampGlow)"/>
-        <circle class="train__lamp" cx="58" cy="118" r="8"/>
-        <circle class="train__lamp-rim" cx="58" cy="118" r="8"/>
-
-        <!-- side rod assembly -->
-        <rect class="train__rod" x="95" y="163" width="140" height="5" rx="2"/>
-        <path class="train__rod-main" d="M70 128 L165 165" stroke-width="6"/>
-        <circle class="train__pin" cx="95" cy="165" r="4.5"/>
-        <circle class="train__pin" cx="165" cy="165" r="5.5"/>
-        <circle class="train__pin" cx="235" cy="165" r="4.5"/>
-
-        <!-- wheels -->
-        <circle class="train__wheel" cx="95" cy="165" r="19" fill="url(#wheelGrad)"/>
-        <circle class="train__wheel train__wheel--big" cx="165" cy="165" r="30" fill="url(#wheelGrad)"/>
-        <circle class="train__wheel" cx="235" cy="165" r="19" fill="url(#wheelGrad)"/>
-        <circle class="train__wheel train__wheel--small" cx="338" cy="165" r="15" fill="url(#wheelGrad)"/>
-        <circle class="train__wheel train__wheel--small" cx="392" cy="165" r="15" fill="url(#wheelGrad)"/>
-
-        <g class="train__spokes" transform="rotate(0 95 165)">
-          <line x1="95" y1="147" x2="95" y2="183"/><line x1="78" y1="165" x2="112" y2="165"/>
-        </g>
-        <g class="train__spokes" transform="rotate(20 165 165)">
-          <line x1="165" y1="136" x2="165" y2="194"/><line x1="136" y1="165" x2="194" y2="165"/>
-          <line x1="144" y1="144" x2="186" y2="186"/><line x1="144" y1="186" x2="186" y2="144"/>
-        </g>
-        <g class="train__spokes" transform="rotate(0 235 165)">
-          <line x1="235" y1="147" x2="235" y2="183"/><line x1="218" y1="165" x2="252" y2="165"/>
-        </g>
-
-        <circle class="train__hub" cx="95" cy="165" r="4"/>
-        <circle class="train__hub" cx="165" cy="165" r="5"/>
-        <circle class="train__hub" cx="235" cy="165" r="4"/>
-        <circle class="train__hub" cx="338" cy="165" r="3.5"/>
-        <circle class="train__hub" cx="392" cy="165" r="3.5"/>
-      </svg>
     </div>
   </div>
 </header>
