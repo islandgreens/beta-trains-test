@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Beta Train</title>
+<meta name="description" content="A calendar of upcoming and active video game betas across PlayStation, Xbox, and PC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="board">
+  <div class="board__wordmark">
+    <span class="board__title">THE&nbsp;BETA&nbsp;TRAIN</span>
+    <span class="board__subtitle">Beta departures &amp; boarding calls &mdash; PlayStation &middot; Xbox &middot; PC</span>
+  </div>
+  <div class="board__clock" id="board-clock" aria-live="off">
+    <span class="board__clock-label">Today</span>
+    <span class="board__clock-value" id="board-clock-value">&mdash;</span>
+  </div>
+</header>
+
+<nav class="controls" aria-label="Calendar controls">
+  <div class="controls__month">
+    <button type="button" class="icon-btn" id="prev-month" aria-label="Previous month">&#8249;</button>
+    <h1 class="controls__month-label" id="month-label">&nbsp;</h1>
+    <button type="button" class="icon-btn" id="next-month" aria-label="Next month">&#8250;</button>
+  </div>
+
+  <div class="controls__filters" role="group" aria-label="Filter by platform">
+    <button type="button" class="filter-btn" data-platform="playstation">
+      <span class="filter-btn__dot filter-btn__dot--playstation"></span>PlayStation
+    </button>
+    <button type="button" class="filter-btn" data-platform="xbox">
+      <span class="filter-btn__dot filter-btn__dot--xbox"></span>Xbox
+    </button>
+    <button type="button" class="filter-btn" data-platform="pc">
+      <span class="filter-btn__dot filter-btn__dot--pc"></span>PC
+    </button>
+  </div>
+</nav>
+
+<main>
+  <section class="calendar" aria-label="Beta calendar">
+    <div class="calendar__weekdays" id="weekdays"></div>
+    <div class="calendar__grid" id="calendar-grid"></div>
+  </section>
+
+  <section class="legend" aria-label="Legend">
+    <h2 class="legend__title">Reading the board</h2>
+    <ul class="legend__list">
+      <li><span class="legend__swatch legend__swatch--playstation"></span>PlayStation exclusive</li>
+      <li><span class="legend__swatch legend__swatch--xbox"></span>Xbox exclusive</li>
+      <li><span class="legend__swatch legend__swatch--pc"></span>PC exclusive</li>
+      <li><span class="legend__swatch legend__swatch--cross"></span>Available on multiple platforms</li>
+      <li><span class="legend__swatch legend__swatch--grey"></span>Signup deadline passed</li>
+      <li><span class="legend__swatch legend__swatch--concluded"></span>Beta concluded</li>
+    </ul>
+    <p class="legend__note">Hollow bars mark the signup window. Solid bars mark the beta itself. This board is seeded with placeholder titles for layout testing, not live data.</p>
+  </section>
+</main>
+
+<div class="overlay" id="overlay" hidden></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title" hidden>
+  <div class="panel__header">
+    <h2 class="panel__title" id="panel-title">&nbsp;</h2>
+    <button type="button" class="icon-btn" id="panel-close" aria-label="Close">&#10005;</button>
+  </div>
+  <div class="panel__body" id="panel-body"></div>
+</aside>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
