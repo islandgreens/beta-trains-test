@@ -31,7 +31,7 @@
   --font-body: "Crimson Pro", Georgia, serif;
   --font-mono: "Special Elite", monospace;
 
-  --hero-max-height: 420px;
+  --hero-max-height: 480px;
 
   --tex-wood: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.9' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='260' height='260' filter='url(%23n)'/></svg>");
   --tex-enamel: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='e'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23e)' opacity='0.5'/></svg>");
@@ -39,8 +39,8 @@
 
   /* Scalloped ornamental border, drawn once and sliced 9-ways via border-image.
      The dark base plus repeated arcs give each calendar cell a curly Victorian edge. */
-  --scallop-frame: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect x='8' y='8' width='104' height='104' rx='10' fill='none' stroke='%231c1815' stroke-width='6'/><rect x='8' y='8' width='104' height='104' rx='10' fill='none' stroke='%23b08d47' stroke-width='2'/><g fill='%23b08d47'><circle cx='60' cy='6' r='5'/><circle cx='6' cy='60' r='5'/><circle cx='114' cy='60' r='5'/><circle cx='60' cy='114' r='5'/></g><g fill='%231c1815'><circle cx='6' cy='6' r='7'/><circle cx='114' cy='6' r='7'/><circle cx='6' cy='114' r='7'/><circle cx='114' cy='114' r='7'/></g><g fill='%23b08d47'><circle cx='6' cy='6' r='4'/><circle cx='114' cy='6' r='4'/><circle cx='6' cy='114' r='4'/><circle cx='114' cy='114' r='4'/></g></svg>");
-  --scallop-frame-bright: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect x='8' y='8' width='104' height='104' rx='10' fill='none' stroke='%231c1815' stroke-width='6'/><rect x='8' y='8' width='104' height='104' rx='10' fill='none' stroke='%23d9b56e' stroke-width='2.5'/><g fill='%23d9b56e'><circle cx='60' cy='6' r='5'/><circle cx='6' cy='60' r='5'/><circle cx='114' cy='60' r='5'/><circle cx='60' cy='114' r='5'/></g><g fill='%231c1815'><circle cx='6' cy='6' r='7'/><circle cx='114' cy='6' r='7'/><circle cx='6' cy='114' r='7'/><circle cx='114' cy='114' r='7'/></g><g fill='%23d9b56e'><circle cx='6' cy='6' r='4'/><circle cx='114' cy='6' r='4'/><circle cx='6' cy='114' r='4'/><circle cx='114' cy='114' r='4'/></g></svg>");
+
+
 }
 
 * { box-sizing: border-box; }
@@ -80,23 +80,40 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .board__frame {
+  --n1: 34px; --n2: 24px; --n3: 14px;
   position: relative;
   background-color: var(--enamel);
-  background-image: var(--tex-enamel);
-  background-blend-mode: multiply;
-  border-radius: 26px;
-  padding: 26px 40px 14px;
-  box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.65), inset 0 0 60px rgba(90, 60, 25, 0.12);
+  background-blend-mode: multiply, multiply, multiply, multiply, multiply, normal;
+  background-image:
+    radial-gradient(circle 3.4px at var(--n1) 10px, var(--brass-bright) 97%, transparent 100%),
+    radial-gradient(circle 3.4px at calc(100% - var(--n1)) 10px, var(--brass-bright) 97%, transparent 100%),
+    radial-gradient(circle 3.4px at var(--n1) calc(100% - 10px), var(--brass-bright) 97%, transparent 100%),
+    radial-gradient(circle 3.4px at calc(100% - var(--n1)) calc(100% - 10px), var(--brass-bright) 97%, transparent 100%),
+    var(--tex-enamel);
+  padding: 30px 46px 16px;
+  clip-path: polygon(
+    var(--n1) 0, calc(100% - var(--n1)) 0,
+    calc(100% - var(--n2)) var(--n3), calc(100% - var(--n3)) var(--n3),
+    100% var(--n2), 100% calc(100% - var(--n2)),
+    calc(100% - var(--n3)) calc(100% - var(--n3)), calc(100% - var(--n2)) calc(100% - var(--n3)),
+    calc(100% - var(--n1)) 100%, var(--n1) 100%,
+    var(--n2) calc(100% - var(--n3)), var(--n3) calc(100% - var(--n3)),
+    0 calc(100% - var(--n2)), 0 var(--n2),
+    var(--n3) var(--n3), var(--n2) var(--n3)
+  );
+  box-shadow:
+    inset 0 0 0 3px var(--iron),
+    inset 0 0 0 8px var(--brass),
+    inset 0 0 0 10px var(--iron),
+    inset 0 0 40px rgba(90, 60, 25, 0.12);
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
 }
 
-.board__ornament {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.4));
-}
+.scroll { position: absolute; width: 26px; height: 26px; fill: none; stroke: var(--brass-bright); stroke-width: 2.5; stroke-linecap: round; z-index: 1; }
+.scroll--tl { top: 8px; left: 8px; }
+.scroll--tr { top: 8px; right: 8px; transform: scaleX(-1); }
+.scroll--bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.scroll--br { bottom: 8px; right: 8px; transform: scale(-1, -1); }
 
 .board__inner { position: relative; z-index: 1; }
 
@@ -170,7 +187,7 @@ button { font-family: inherit; cursor: pointer; }
 .board__clock-value { font-family: var(--font-mono); font-size: 12.5px; color: var(--ink); }
 
 /* ---- locomotive ---- */
-.board__engine { margin-top: 10px; height: 232px; overflow: hidden; }
+.board__engine { margin-top: 10px; height: 250px; overflow: hidden; }
 .train { width: 100%; height: 100%; overflow: visible; }
 
 .track-line { stroke: var(--iron); stroke-width: 3; stroke-dasharray: 2 8; }
@@ -187,29 +204,33 @@ button { font-family: inherit; cursor: pointer; }
   100% { opacity: 0; transform: translateY(-30px) scale(1.7); }
 }
 
-.train__tender { fill: var(--iron); stroke: var(--brass); stroke-width: 1; }
+.train__tender-body { fill: url(#woodTender); }
+.train__tender-plank { stroke: rgba(0,0,0,0.35); stroke-width: 1.2; }
 .train__trim { fill: var(--brass); }
 .train__coal { fill: #120e0b; }
 .train__cab-roof { fill: var(--iron); }
 .train__cab { fill: var(--iron); stroke: var(--brass); stroke-width: 1; }
 .train__cab-window { fill: var(--enamel); opacity: 0.92; }
 .train__boiler { stroke: var(--iron); stroke-width: 2; }
-.train__rivet { fill: var(--brass); opacity: 0.8; }
-.train__dome { fill: var(--iron); stroke: var(--brass); stroke-width: 1.5; }
-.train__dome-cap { fill: var(--brass); }
-.train__stack { fill: var(--iron); }
-.train__stack-cap { fill: var(--brass); }
+.train__rivet circle { fill: var(--brass); opacity: 0.8; r: 1.8; }
+.train__dome { fill: url(#ironFace); stroke: var(--brass); stroke-width: 1.5; }
+.train__bell { fill: url(#brassKnob); stroke: #6b4f22; stroke-width: 0.5; }
+.train__stack-neck { fill: url(#ironFace); }
+.train__stack-flare { fill: url(#ironFace); stroke: #0c0806; stroke-width: 1; }
+.train__stack-rim { fill: url(#brassBand); }
+.train__smokebox { fill: url(#ironFace); stroke: #0c0806; stroke-width: 2; }
+.train__smokebox-ring { fill: none; stroke: url(#brassBand); stroke-width: 2; opacity: 0.6; }
+.train__numberplate { fill: var(--enamel); stroke: var(--brass); stroke-width: 2; }
+.train__numberplate-text { font-family: var(--font-mono); font-size: 11px; fill: var(--ink); }
+.train__lamp-housing { fill: url(#ironFace); stroke: var(--brass); stroke-width: 1.5; }
 .train__buffer { fill: var(--iron); }
-.train__catcher { fill: var(--iron); }
+.train__catcher { fill: url(#ironFace); stroke: #0c0806; stroke-width: 1; }
+.train__pilot-slat { stroke: var(--brass); stroke-width: 1.6; opacity: 0.7; }
+.train__cylinder { fill: url(#ironFace); stroke: var(--brass); stroke-width: 1.5; }
 .train__lamp { fill: #ffe3a3; }
 .train__lamp-rim { fill: none; stroke: var(--brass); stroke-width: 2; }
 .train__rod { fill: var(--brass); }
-.train__rod-main { stroke: var(--brass); fill: none; stroke-linecap: round; }
-.train__pin { fill: var(--brass-bright); stroke: var(--iron); stroke-width: 1; }
-.train__wheel { stroke: var(--brass); stroke-width: 2; }
-.train__wheel--big { stroke-width: 3; }
-.train__spokes line { stroke: var(--brass-bright); stroke-width: 2; opacity: 0.85; }
-.train__hub { fill: var(--brass-bright); }
+.train__rod-main { stroke: var(--brass); stroke-width: 6; fill: none; stroke-linecap: round; }
 .train__shadow { fill: rgba(0, 0, 0, 0.32); }
 .train__smoke circle { fill: var(--enamel-alt); opacity: 0.5; }
 
@@ -285,29 +306,40 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
 .calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px 8px; }
 
 .day {
+  --dn: 13px;
   position: relative;
   background-color: var(--enamel);
-  background-image: var(--tex-enamel-soft);
-  background-blend-mode: multiply;
-  border: 14px solid transparent;
-  border-image: var(--scallop-frame) 30 round;
+  background-blend-mode: multiply, multiply, multiply, multiply, multiply;
+  background-image:
+    radial-gradient(circle 2.2px at 8px 8px, var(--brass) 96%, transparent 100%),
+    radial-gradient(circle 2.2px at calc(100% - 8px) 8px, var(--brass) 96%, transparent 100%),
+    radial-gradient(circle 2.2px at 8px calc(100% - 8px), var(--brass) 96%, transparent 100%),
+    radial-gradient(circle 2.2px at calc(100% - 8px) calc(100% - 8px), var(--brass) 96%, transparent 100%),
+    var(--tex-enamel-soft);
+  clip-path: polygon(
+    var(--dn) 0, calc(100% - var(--dn)) 0,
+    100% var(--dn), 100% calc(100% - var(--dn)),
+    calc(100% - var(--dn)) 100%, var(--dn) 100%,
+    0 calc(100% - var(--dn)), 0 var(--dn)
+  );
+  box-shadow: inset 0 0 0 2px var(--iron), inset 0 0 0 5px var(--brass);
   min-height: 96px;
-  padding: 4px 4px 6px;
+  padding: 6px 5px 6px;
   display: flex;
   flex-direction: column;
   gap: 4px;
   text-align: left;
   color: var(--ink);
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.32));
   transition: transform 0.1s ease, filter 0.15s ease;
 }
 
-.day:hover:not(.day--empty) { transform: translateY(-1px); filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4)); border-image: var(--scallop-frame-bright) 30 round; }
-.day--empty { background: transparent; border-image: none; border-color: transparent; filter: none; cursor: default; }
-.day--today { border-image: var(--scallop-frame-bright) 30 round; }
+.day:hover:not(.day--empty) { transform: translateY(-1px); filter: drop-shadow(0 3px 6px rgba(0,0,0,0.42)); }
+.day--empty { background: transparent; clip-path: none; box-shadow: none; filter: none; cursor: default; }
+.day--today { box-shadow: inset 0 0 0 2px var(--iron), inset 0 0 0 5px var(--brass-bright); }
 .day--today::after {
-  content: ""; position: absolute; inset: -2px; pointer-events: none;
-  box-shadow: 0 0 12px -1px var(--brass-bright);
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  filter: drop-shadow(0 0 8px var(--brass-bright));
 }
 
 .day__num { font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); text-align: center; }
@@ -424,11 +456,11 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
 @media (max-width: 640px) {
   :root { --hero-max-height: 320px; }
   .board { padding: 12px 12px 10px; }
-  .board__frame { padding: 20px 22px 12px; }
+  .board__frame { --n1: 22px; --n2: 16px; --n3: 9px; padding: 22px 26px 12px; }
   .board__engine { height: 160px; }
   .controls { padding: 12px 16px; }
   main { padding: 18px 14px 32px; }
-  .day { min-height: 66px; border-width: 11px; padding: 3px; }
+  .day { --dn: 9px; min-height: 66px; padding: 4px 3px; }
   .day__num { font-size: 10px; }
   .entry-bar { height: 8px; }
   .ticket__stamp { width: 56px; height: 56px; font-size: 7.5px; top: 10px; right: 16px; }
