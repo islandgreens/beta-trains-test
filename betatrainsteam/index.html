@@ -14,12 +14,22 @@
 
 <header class="board">
   <div class="board__frame">
-    <span class="rivet rivet--tl"></span><span class="rivet rivet--tr"></span>
-    <span class="rivet rivet--bl"></span><span class="rivet rivet--br"></span>
+    <svg class="scroll scroll--tl" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
+    <svg class="scroll scroll--tr" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
+    <svg class="scroll scroll--bl" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
+    <svg class="scroll scroll--br" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21 C21 7 7 3 3 3"/></svg>
+    <span class="rivet-strip rivet-strip--top" aria-hidden="true"></span>
+    <span class="rivet-strip rivet-strip--bottom" aria-hidden="true"></span>
+    <span class="rivet-strip rivet-strip--left" aria-hidden="true"></span>
+    <span class="rivet-strip rivet-strip--right" aria-hidden="true"></span>
 
     <div class="board__row">
       <div class="board__wordmark">
-        <h1 class="board__title">The Beta Train</h1>
+        <div class="board__title-row">
+          <span class="speed-marks speed-marks--left" aria-hidden="true"><i></i><i></i><i></i></span>
+          <h1 class="board__title">The Beta Train</h1>
+          <span class="speed-marks speed-marks--right" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
         <span class="board__subtitle">Boarding calls for PlayStation, Xbox &amp; PC beta tests</span>
       </div>
       <div class="board__clock" id="board-clock" aria-live="off">
@@ -28,44 +38,106 @@
       </div>
     </div>
 
-    <div class="board__track" aria-hidden="true">
-      <svg class="train" viewBox="0 0 620 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-        <line class="track-line" x1="0" y1="78" x2="620" y2="78"/>
+    <div class="board__engine" aria-hidden="true">
+      <svg class="train" viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+        <defs>
+          <linearGradient id="boilerGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a7350"/>
+            <stop offset="100%" stop-color="#233a27"/>
+          </linearGradient>
+          <linearGradient id="wheelGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#332a22"/>
+            <stop offset="100%" stop-color="#120e0b"/>
+          </linearGradient>
+          <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffe3a3" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#ffe3a3" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
 
-        <g class="train__unit">
-          <g class="train__smoke">
-            <circle cx="60" cy="20" r="7"/>
-            <circle cx="72" cy="10" r="9"/>
-            <circle cx="88" cy="2" r="11"/>
-            <circle cx="108" cy="-6" r="13"/>
-          </g>
+        <line class="track-line" x1="10" y1="190" x2="470" y2="190"/>
+        <ellipse class="train__shadow" cx="230" cy="192" rx="200" ry="8"/>
 
-          <rect class="train__shadow" x="10" y="66" width="200" height="6" rx="3"/>
-
-          <!-- tender / body -->
-          <rect class="train__body" x="130" y="34" width="90" height="34" rx="3"/>
-          <!-- boiler -->
-          <rect class="train__boiler" x="60" y="30" width="130" height="30" rx="15"/>
-          <!-- smokestack -->
-          <rect class="train__stack" x="62" y="10" width="14" height="24" rx="2"/>
-          <rect class="train__stack-cap" x="58" y="8" width="22" height="6" rx="2"/>
-          <!-- cab -->
-          <path class="train__cab" d="M195 20 H222 V60 H195 Z"/>
-          <rect class="train__cab-window" x="201" y="26" width="14" height="14" rx="2"/>
-          <!-- brass trim -->
-          <rect class="train__trim" x="60" y="44" width="130" height="5"/>
-          <!-- cow-catcher -->
-          <path class="train__catcher" d="M60 60 L38 68 L60 68 Z"/>
-          <!-- headlamp -->
-          <circle class="train__lamp" cx="55" cy="38" r="6"/>
-          <!-- wheels -->
-          <circle class="train__wheel train__wheel--big" cx="100" cy="66" r="16"/>
-          <circle class="train__wheel-hub" cx="100" cy="66" r="4"/>
-          <circle class="train__wheel" cx="150" cy="66" r="11"/>
-          <circle class="train__wheel-hub" cx="150" cy="66" r="3"/>
-          <circle class="train__wheel" cx="195" cy="66" r="11"/>
-          <circle class="train__wheel-hub" cx="195" cy="66" r="3"/>
+        <g class="train__smoke">
+          <circle cx="95" cy="30" r="9"/>
+          <circle cx="108" cy="16" r="12"/>
+          <circle cx="128" cy="2" r="15"/>
+          <circle cx="154" cy="-10" r="17"/>
         </g>
+
+        <!-- tender -->
+        <rect class="train__tender" x="310" y="90" width="115" height="62" rx="4"/>
+        <rect class="train__trim" x="310" y="118" width="115" height="7"/>
+        <ellipse class="train__coal" cx="335" cy="86" rx="16" ry="9"/>
+        <ellipse class="train__coal" cx="355" cy="82" rx="18" ry="10"/>
+        <ellipse class="train__coal" cx="378" cy="85" rx="15" ry="9"/>
+        <ellipse class="train__coal" cx="398" cy="88" rx="13" ry="8"/>
+
+        <!-- cab -->
+        <rect class="train__cab-roof" x="244" y="54" width="68" height="11" rx="2"/>
+        <rect class="train__cab" x="250" y="60" width="56" height="92" rx="2"/>
+        <rect class="train__cab-window" x="261" y="76" width="24" height="22" rx="3"/>
+
+        <!-- boiler -->
+        <rect class="train__boiler" x="60" y="95" width="192" height="52" rx="26" fill="url(#boilerGrad)"/>
+        <circle class="train__rivet" cx="75" cy="101" r="2"/><circle class="train__rivet" cx="95" cy="101" r="2"/>
+        <circle class="train__rivet" cx="115" cy="101" r="2"/><circle class="train__rivet" cx="135" cy="101" r="2"/>
+        <circle class="train__rivet" cx="155" cy="101" r="2"/><circle class="train__rivet" cx="175" cy="101" r="2"/>
+        <circle class="train__rivet" cx="195" cy="101" r="2"/><circle class="train__rivet" cx="215" cy="101" r="2"/>
+        <circle class="train__rivet" cx="235" cy="101" r="2"/>
+        <circle class="train__rivet" cx="75" cy="141" r="2"/><circle class="train__rivet" cx="95" cy="141" r="2"/>
+        <circle class="train__rivet" cx="115" cy="141" r="2"/><circle class="train__rivet" cx="135" cy="141" r="2"/>
+        <circle class="train__rivet" cx="155" cy="141" r="2"/><circle class="train__rivet" cx="175" cy="141" r="2"/>
+        <circle class="train__rivet" cx="195" cy="141" r="2"/><circle class="train__rivet" cx="215" cy="141" r="2"/>
+        <circle class="train__rivet" cx="235" cy="141" r="2"/>
+
+        <!-- steam dome -->
+        <ellipse class="train__dome" cx="168" cy="88" rx="17" ry="15"/>
+        <rect class="train__dome-cap" x="160" y="72" width="16" height="6" rx="2"/>
+
+        <!-- smokestack -->
+        <rect class="train__stack" x="88" y="42" width="20" height="56" rx="3"/>
+        <rect class="train__stack-cap" x="82" y="36" width="32" height="11" rx="3"/>
+
+        <!-- buffer beam + pilot -->
+        <rect class="train__buffer" x="26" y="150" width="16" height="20" rx="2"/>
+        <path class="train__catcher" d="M22 178 L58 150 L66 150 L66 160 L34 184 Z"/>
+
+        <!-- headlamp -->
+        <circle cx="58" cy="118" r="20" fill="url(#lampGlow)"/>
+        <circle class="train__lamp" cx="58" cy="118" r="8"/>
+        <circle class="train__lamp-rim" cx="58" cy="118" r="8"/>
+
+        <!-- side rod assembly -->
+        <rect class="train__rod" x="95" y="163" width="140" height="5" rx="2"/>
+        <path class="train__rod-main" d="M70 128 L165 165" stroke-width="6"/>
+        <circle class="train__pin" cx="95" cy="165" r="4.5"/>
+        <circle class="train__pin" cx="165" cy="165" r="5.5"/>
+        <circle class="train__pin" cx="235" cy="165" r="4.5"/>
+
+        <!-- wheels -->
+        <circle class="train__wheel" cx="95" cy="165" r="19" fill="url(#wheelGrad)"/>
+        <circle class="train__wheel train__wheel--big" cx="165" cy="165" r="30" fill="url(#wheelGrad)"/>
+        <circle class="train__wheel" cx="235" cy="165" r="19" fill="url(#wheelGrad)"/>
+        <circle class="train__wheel train__wheel--small" cx="338" cy="165" r="15" fill="url(#wheelGrad)"/>
+        <circle class="train__wheel train__wheel--small" cx="392" cy="165" r="15" fill="url(#wheelGrad)"/>
+
+        <g class="train__spokes" transform="rotate(0 95 165)">
+          <line x1="95" y1="147" x2="95" y2="183"/><line x1="78" y1="165" x2="112" y2="165"/>
+        </g>
+        <g class="train__spokes" transform="rotate(20 165 165)">
+          <line x1="165" y1="136" x2="165" y2="194"/><line x1="136" y1="165" x2="194" y2="165"/>
+          <line x1="144" y1="144" x2="186" y2="186"/><line x1="144" y1="186" x2="186" y2="144"/>
+        </g>
+        <g class="train__spokes" transform="rotate(0 235 165)">
+          <line x1="235" y1="147" x2="235" y2="183"/><line x1="218" y1="165" x2="252" y2="165"/>
+        </g>
+
+        <circle class="train__hub" cx="95" cy="165" r="4"/>
+        <circle class="train__hub" cx="165" cy="165" r="5"/>
+        <circle class="train__hub" cx="235" cy="165" r="4"/>
+        <circle class="train__hub" cx="338" cy="165" r="3.5"/>
+        <circle class="train__hub" cx="392" cy="165" r="3.5"/>
       </svg>
     </div>
   </div>
@@ -117,7 +189,7 @@
       <li><span class="legend__swatch legend__swatch--grey"></span>Signup deadline passed</li>
       <li><span class="legend__swatch legend__swatch--concluded"></span>Beta concluded</li>
     </ul>
-    <p class="legend__note">Hollow bars mark the signup window. Solid bars mark the beta itself. Open a day to see whether a beta is currently invite-only or open to everyone. This board is seeded with placeholder titles for layout testing, not live data.</p>
+    <p class="legend__note">Tinted bars mark the signup window. Solid bars mark the beta itself. Open a day to see whether a beta is currently invite-only or open to everyone. This board is seeded with placeholder titles for layout testing, not live data.</p>
   </section>
 </main>
 
