@@ -1,56 +1,60 @@
 # The Beta Train
 
 A calendar of upcoming and active video game betas across PlayStation, Xbox, and PC.
-Static site, no build step, no backend. Everything lives in three files.
+Two visual designs share one dataset and one set of rules for what a status means.
 
 ## Structure
 
 ```
-index.html        page structure
-css/styles.css     all styling
-js/data.js         the entire dataset — edit this to add/update betas
-js/app.js          calendar rendering, status logic, filters, detail panel
+shared/
+  data.js          the entire dataset — edit this once, both designs update
+  logic.js         date math, status computation, labels — identical for both designs
+
+betatrainmodern/   sleek, vibrant, dark game-launcher aesthetic
+betatrainsteam/    Victorian train-terminus aesthetic (brick, iron, brass, enamel signage)
 ```
+
+Each design is a self-contained static site (its own `index.html`, `css/`, `js/`) that
+loads `../shared/data.js` and `../shared/logic.js` before its own rendering code. Never
+duplicate the dataset or the status logic into a design folder — if you're adding a
+third design, point it at `shared/` the same way.
 
 ## Adding or editing a beta
 
-Open `js/data.js` and add an object to the `BETA_DATA` array. Field reference
-is documented in the comment at the top of that file. You don't need to
-compute status yourself, it's derived automatically from today's date and
-the dates you enter:
+Edit `shared/data.js`. Field reference is documented in the comment at the top of that
+file. Both designs pick up the change automatically. Status is always derived from
+today's date, never hand-set:
 
 - **Upcoming** — before signup opens
-- **Signup open** — between signup open and the deadline (or indefinitely, if no deadline is known)
-- **Signup closed** — past the deadline, beta hasn't started yet (shown greyed out)
-- **Beta live** — today falls inside the beta window (always takes priority over a missed deadline)
+- **Signup open** — between signup open and the deadline (or indefinitely, if no deadline)
+- **Signup closed** — past the deadline, beta hasn't started yet
+- **Closed beta** — the beta window is active and it's still invite-only
+- **Open beta** — the beta window is active and it's open to everyone (set `open_beta_date`)
 - **Concluded** — the beta window has ended
 
-## Color system
+Most betas start closed and open up partway through — that's what `open_beta_date`
+is for. Leave it `null` if a beta stays invite-only for its whole run.
 
-- Blue / green / orange mark a beta that's exclusive to PlayStation / Xbox / PC respectively.
-- Purple marks anything available on more than one platform. This is expected to be the
-  majority of entries, so the three brand colors are reserved for genuine exclusives
-  rather than diluted across everything.
-- Grey (solid) means the signup deadline has passed. Grey (dashed) means the beta has concluded.
+## Color systems (differ per design, same logic)
+
+Both designs use the same rule: a single-platform beta gets that platform's color,
+anything spanning more than one platform gets the "multi-platform" color, since that's
+expected to be the majority case. The actual colors differ:
+
+- **betatrainmodern**: vivid blue / green / orange / purple
+- **betatrainsteam**: heritage rail-signal blue / green / amber, with a muted plum for
+  multi-platform, all rendered on cream enamel boards
 
 ## Filtering
 
-Two independent filter rows sit above the calendar: platform (PlayStation / Xbox / PC,
-inclusive, matches any entry that supports the selected platform) and event type
-(opening soon / signups open / live now). Both use the same pressed-button pattern:
-a filled, glowing chip means it's active. Combining filters narrows by both at once.
-
-## Current data
-
-The seven entries in `js/data.js` right now are placeholder titles for layout testing,
-not real games. They're dated around the current day on purpose, to demonstrate every
-status state at once. Replace them with real, verified betas when you're ready — a
-working signup link is optional, but only add an entry once you've confirmed it against
-an official source (the `source` field is for your own recordkeeping, it's never shown
-on the page).
+Platform filters are inclusive (matches any entry supporting that platform, not
+exclusive-only). Event-type filters (opening soon / signups open / live now) group
+closed-beta and open-beta together under "live now" — the open/closed distinction is
+shown on the detail cards, not used for filtering.
 
 ## Deploying to GitHub Pages
 
-See the setup steps provided separately. Short version: create a new repo, upload
-these files keeping the folder structure intact, enable Pages in the repo's Settings,
-done. No build step, no dependencies to install.
+Same as before: create a repo, upload the whole `beta-train` folder (or its contents)
+keeping the folder structure intact, enable Pages in Settings, done. No build step. If
+you want both designs live at once, they'll sit at `yoursite/betatrainmodern/` and
+`yoursite/betatrainsteam/` automatically, since each is self-contained.
