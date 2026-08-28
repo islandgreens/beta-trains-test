@@ -8,8 +8,8 @@
   --brass: #b08d47;
   --brass-bright: #d9b56e;
 
-  --enamel: #e0cfa0;
-  --enamel-alt: #d3bd8a;
+  --enamel: #f5efdd;
+  --enamel-alt: #ece1c4;
   --enamel-border: #382a1c;
 
   --ink: #2a1f14;
@@ -144,16 +144,6 @@ button { font-family: inherit; cursor: pointer; }
 .board__clock-label { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
 .board__clock-value { font-family: var(--font-mono); font-size: 12.5px; color: var(--ink); }
 
-/* ---- locomotive ---- */
-.board__engine { margin-top: 10px; height: 200px; display: flex; align-items: center; justify-content: center; overflow: visible; }
-.board__engine-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
-  transform: scale(1.1) translate(18px, -14px);
-}
-
 /* ===== Controls ===== */
 .controls {
   display: flex;
@@ -227,18 +217,13 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
 
 .day {
   position: relative;
-  background-color: var(--enamel);
+  background-color: #d9c9a0;
   background-image: var(--tex-enamel-soft);
   background-blend-mode: multiply;
-  background-clip: padding-box;
-  border-style: solid;
-  border-width: 16px;
-  border-image-source: url("../assets/banner-frame.png");
-  border-image-slice: 22%;
-  border-image-width: 16px;
-  border-image-repeat: stretch;
+  border: 2px solid var(--enamel-border);
+  border-radius: var(--radius-sm);
   min-height: 96px;
-  padding: 4px 4px 5px;
+  padding: 6px 6px 7px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -249,8 +234,8 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
 }
 
 .day:hover:not(.day--empty) { transform: translateY(-1px); filter: drop-shadow(0 3px 6px rgba(0,0,0,0.42)); }
-.day--empty { background: transparent; border-image: none; border-color: transparent; filter: none; cursor: default; }
-.day--today { filter: drop-shadow(0 2px 2px rgba(0,0,0,0.32)) drop-shadow(0 0 9px var(--brass-bright)); }
+.day--empty { background: transparent; border-color: transparent; filter: none; cursor: default; }
+.day--today { border-color: var(--brass-bright); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.32)) drop-shadow(0 0 9px var(--brass-bright)); }
 
 .day__num { font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); text-align: center; }
 .day--today .day__num { color: var(--ink); font-weight: 700; }
@@ -366,11 +351,10 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
 @media (max-width: 640px) {
   .board { padding: 12px 12px 10px; }
   .board__frame { border-width: 26px 32px; border-image-width: 26px 32px; padding: 12px 14px 10px; }
-  .board__engine { height: 130px; overflow: visible; }
   .board__logo { height: 56px; }
   .controls { padding: 12px 16px; }
   main { padding: 18px 14px 32px; }
-  .day { border-width: 11px; min-height: 66px; padding: 3px; }
+  .day { border-width: 1.5px; min-height: 66px; padding: 4px; }
   .day__num { font-size: 10px; }
   .entry-bar { height: 8px; }
   .ticket__stamp { width: 56px; height: 56px; font-size: 7.5px; top: 10px; right: 16px; }
