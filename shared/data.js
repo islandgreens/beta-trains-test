@@ -131,7 +131,33 @@ const BETA_DATA = [
     beta_window: { start: "2026-08-15", end: "2026-09-10" },
     open_beta_date: "2026-08-20",
     signup_link: "https://example.com/ironclad-horizon-beta",
-    description: "Turn-based tactics with a persistent campaign. Now past its invite-only phase — everyone can join.",
+    description: "Turn-based tactics with a persistent campaign. Now past its invite-only phase. Everyone can join.",
     source: "https://example.com/source-ironclad-horizon"
+  },
+  {
+    id: "northbound-signal",
+    title: "Northbound Signal",
+    platforms: ["xbox"],
+    platform_access_type: "unspecified",
+    signup_open_date: "2026-08-18",
+    signup_deadline: "2026-09-05",
+    beta_window: { start: "2026-09-10", end: "2026-09-20" },
+    open_beta_date: "2026-09-17",
+    signup_link: "https://example.com/northbound-signal-beta",
+    description: "Cooperative heist thriller. First public test after a long closed alpha.",
+    source: "https://example.com/source-northbound-signal"
+  },
+  {
+    id: "ironvale-assault",
+    title: "Ironvale Assault",
+    platforms: ["xbox"],
+    platform_access_type: "unspecified",
+    signup_open_date: "2026-07-20",
+    signup_deadline: "2026-08-10",
+    beta_window: { start: "2026-08-22", end: "2026-09-02" },
+    open_beta_date: "2026-08-29",
+    signup_link: "https://example.com/ironvale-assault-beta",
+    description: "Squad-based tactical shooter. Closed beta now underway ahead of a wider open weekend.",
+    source: "https://example.com/source-ironvale-assault"
   }
 ];
