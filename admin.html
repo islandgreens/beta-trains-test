@@ -44,6 +44,32 @@
   .status-open-beta { background: #2f7a5a; }
   .status-concluded { background: #4a2f2f; }
 
+  .review-badge {
+    display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 2px 7px; border-radius: 999px; margin-left: 6px;
+    background: #6e3a1f; color: #ffd9b0; border: 1px solid #a85a2c;
+  }
+  .review-badge--clean { background: transparent; color: #4d8a5c; border: 1px solid #2f5a3d; }
+  .entry-row--needs-review { border-color: #a85a2c; }
+
+  .review-fields {
+    margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .review-chip {
+    font-family: monospace; font-size: 10.5px; color: #ffd9b0;
+    background: rgba(168, 90, 44, 0.18); border: 1px solid rgba(168, 90, 44, 0.4);
+    border-radius: 4px; padding: 1px 6px;
+  }
+
+  .review-check-group {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
+    padding: 10px; background: #17181c; border-radius: 6px; border: 1px solid #40434e;
+  }
+  .review-check-group label {
+    display: flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 400;
+    color: #c4c5cb; font-family: monospace;
+  }
+
   .entry-row__actions { display: flex; gap: 6px; }
 
   dialog {
@@ -81,6 +107,7 @@
 <div class="toolbar">
   <button class="primary" id="add-btn">+ Add new entry</button>
   <button id="generate-btn">Generate updated data.js</button>
+  <button id="sort-review-btn">Sort: needs review first</button>
 </div>
 
 <div id="entry-list"></div>
@@ -162,6 +189,17 @@
       <label>Source (your own recordkeeping, never shown publicly)</label>
       <input type="text" id="f-source" placeholder="https://">
     </div>
+    <div class="field">
+      <label>Fields still needing verification</label>
+      <div class="review-check-group">
+        <label><input type="checkbox" class="f-review" value="signup_open_date"> signup_open_date</label>
+        <label><input type="checkbox" class="f-review" value="signup_deadline"> signup_deadline</label>
+        <label><input type="checkbox" class="f-review" value="beta_window"> beta_window</label>
+        <label><input type="checkbox" class="f-review" value="open_beta_date"> open_beta_date</label>
+        <label><input type="checkbox" class="f-review" value="signup_link"> signup_link</label>
+        <label><input type="checkbox" class="f-review" value="platform_access_type"> platform_access_type</label>
+      </div>
+    </div>
     <div class="form-actions">
       <button type="button" id="cancel-btn">Cancel</button>
       <button type="submit" class="primary">Save entry</button>
@@ -183,19 +221,36 @@ function slugify(str) {
   return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+let sortReviewFirst = false;
+
 function renderList() {
   const list = document.getElementById("entry-list");
   if (entries.length === 0) {
     list.innerHTML = `<p class="empty-state">No entries yet. Add one above.</p>`;
     return;
   }
-  list.innerHTML = entries.map((e, i) => {
+
+  // Keep original array indices attached so edit/delete still target the right entry after sorting.
+  let indexed = entries.map((e, i) => ({ e, i }));
+  if (sortReviewFirst) {
+    indexed = indexed.slice().sort((a, b) => (b.e.needs_review?.length || 0) - (a.e.needs_review?.length || 0));
+  }
+
+  list.innerHTML = indexed.map(({ e, i }) => {
     const status = computeStatus(e, today);
+    const review = e.needs_review || [];
+    const reviewBadge = review.length > 0
+      ? `<span class="review-badge">${review.length} to verify</span>`
+      : `<span class="review-badge review-badge--clean">verified</span>`;
+    const reviewChips = review.length > 0
+      ? `<div class="review-fields">${review.map(f => `<span class="review-chip">${f}</span>`).join("")}</div>`
+      : "";
     return `
-      <div class="entry-row">
+      <div class="entry-row ${review.length > 0 ? 'entry-row--needs-review' : ''}">
         <div class="entry-row__info">
-          <div class="entry-row__title">${e.title} <span class="status-badge status-${status}">${STATUS_LABEL[status]}</span></div>
+          <div class="entry-row__title">${e.title} <span class="status-badge status-${status}">${STATUS_LABEL[status]}</span>${reviewBadge}</div>
           <div class="entry-row__meta">${e.id} · ${e.platforms.join(", ")}</div>
+          ${reviewChips}
         </div>
         <div class="entry-row__actions">
           <button data-edit="${i}">Edit</button>
@@ -219,10 +274,17 @@ function renderList() {
   });
 }
 
+document.getElementById("sort-review-btn").addEventListener("click", (e) => {
+  sortReviewFirst = !sortReviewFirst;
+  e.target.textContent = sortReviewFirst ? "Sort: original order" : "Sort: needs review first";
+  renderList();
+});
+
 function openDialog(index) {
   editingIndex = index;
   form.reset();
   document.querySelectorAll('[id^="f-platform-"]').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.f-review').forEach(cb => cb.checked = false);
 
   if (index === null) {
     document.getElementById("dialog-title").textContent = "Add entry";
@@ -246,6 +308,10 @@ function openDialog(index) {
     document.getElementById("f-link").value = e.signup_link || "";
     document.getElementById("f-description").value = e.description || "";
     document.getElementById("f-source").value = e.source || "";
+    (e.needs_review || []).forEach(field => {
+      const cb = document.querySelector(`.f-review[value="${field}"]`);
+      if (cb) cb.checked = true;
+    });
   }
   dialog.showModal();
 }
@@ -269,6 +335,7 @@ document.getElementById("f-no-open-beta").addEventListener("change", (e) => {
 form.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const platforms = ["playstation", "xbox", "pc"].filter(p => document.getElementById(`f-platform-${p}`).checked);
+  const needsReview = Array.from(document.querySelectorAll(".f-review:checked")).map(cb => cb.value);
 
   const entry = {
     id: document.getElementById("f-id").value.trim(),
@@ -284,7 +351,8 @@ form.addEventListener("submit", (evt) => {
     open_beta_date: document.getElementById("f-no-open-beta").checked ? null : (document.getElementById("f-open-beta").value || null),
     signup_link: document.getElementById("f-link").value.trim() || null,
     description: document.getElementById("f-description").value.trim(),
-    source: document.getElementById("f-source").value.trim()
+    source: document.getElementById("f-source").value.trim(),
+    needs_review: needsReview
   };
 
   if (editingIndex === null) {
@@ -320,6 +388,9 @@ const FILE_HEADER = `/*
     description           short blurb for the detail panel
     source                url you verified this against (recordkeeping only,
                            never shown publicly)
+    needs_review           array of field names not yet confirmed from a source —
+                           empty array means fully verified. Edit entries in
+                           admin.html to check these off as you verify them.
 
   Generated by admin.html — paste this whole file over shared/data.js.
 */
@@ -340,7 +411,8 @@ function serializeEntries() {
     open_beta_date: ${e.open_beta_date ? JSON.stringify(e.open_beta_date) : "null"},
     signup_link: ${e.signup_link ? JSON.stringify(e.signup_link) : "null"},
     description: ${JSON.stringify(e.description)},
-    source: ${JSON.stringify(e.source || "")}
+    source: ${JSON.stringify(e.source || "")},
+    needs_review: ${JSON.stringify(e.needs_review || [])}
   }`;
   }).join(",\n");
   return FILE_HEADER + body + "\n];\n";

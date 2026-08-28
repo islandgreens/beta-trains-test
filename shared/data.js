@@ -22,142 +22,103 @@
     description           short blurb for the detail panel
     source                url you verified this against (recordkeeping only,
                            never shown publicly)
+    needs_review           array of field names that were NOT confirmed from a
+                           source and need a manual check — e.g. ["signup_link"].
+                           Empty array means every field is source-confirmed.
+                           This is separate from a field being null on purpose
+                           (e.g. open_beta_date: null because a beta is
+                           confirmed invite-only for its whole run is NOT a
+                           review item — only "I don't actually know" is).
 
-  NOTE: every title below is a placeholder, invented for layout testing only.
-  Dates are hand-picked around "today" so the board demonstrates every status
-  at once (upcoming, signup open, missed deadline, closed beta, open beta,
-  concluded). As real time passes these will drift out of sync with "today."
+  This file was populated from a real research pass (web search + article
+  fetches) on 2026-08-28. Every entry's source field points to the actual
+  article it was pulled from. Anything not stated explicitly in that source
+  was left null and flagged in needs_review rather than guessed.
 */
 
 const BETA_DATA = [
   {
-    id: "nova-frontier",
-    title: "Nova Frontier",
-    platforms: ["playstation", "xbox", "pc"],
-    platform_access_type: "selection-during-signup",
-    signup_open_date: "2026-08-10",
-    signup_deadline: "2026-08-20",
-    beta_window: { start: "2026-08-25", end: "2026-09-05" },
-    open_beta_date: "2026-09-01",
-    signup_link: null,
-    description: "Open-world extraction shooter. First public network test, servers capped at 50k concurrent.",
-    source: "https://example.com/source-nova-frontier"
-  },
-  {
-    id: "aurelias-wake",
-    title: "Aurelia's Wake",
-    platforms: ["playstation"],
-    platform_access_type: "unspecified",
-    signup_open_date: "2026-08-20",
-    signup_deadline: "2026-09-10",
-    beta_window: { start: "2026-09-15", end: "2026-09-25" },
-    open_beta_date: "2026-09-22",
-    signup_link: "https://example.com/aurelias-wake-beta",
-    description: "Narrative action-RPG. Closed beta focused on the first two story chapters and combat feedback.",
-    source: "https://example.com/source-aurelias-wake"
-  },
-  {
-    id: "steel-vanguard",
-    title: "Steel Vanguard",
-    platforms: ["xbox"],
-    platform_access_type: "unspecified",
-    signup_open_date: "2026-07-01",
-    signup_deadline: "2026-08-15",
-    beta_window: { start: "2026-09-01", end: "2026-09-10" },
-    open_beta_date: "2026-09-08",
-    signup_link: "https://example.com/steel-vanguard-beta",
-    description: "Mech-combat multiplayer. Signup has closed; selected testers will be notified before the window opens.",
-    source: "https://example.com/source-steel-vanguard"
-  },
-  {
-    id: "emberlight",
-    title: "Emberlight",
+    id: "tsurugihime",
+    title: "TSURUGIHIME",
     platforms: ["pc"],
     platform_access_type: "unspecified",
-    signup_open_date: "2026-08-15",
-    signup_deadline: null,
-    beta_window: { start: "2026-09-20", end: "2026-09-30" },
+    signup_open_date: "2026-08-17",
+    signup_deadline: "2026-08-23",
+    beta_window: { start: "2026-08-25", end: "2026-09-06" },
     open_beta_date: null,
-    signup_link: "https://example.com/emberlight-playtest",
-    description: "Cooperative survival-crafting. Steam Playtest, rolling admission with no announced cutoff. Stays invite-only for the full test.",
-    source: "https://example.com/source-emberlight"
+    signup_link: "https://forms.gle/E9DCkxhprnLwZqib9",
+    description: "Combat-only closed beta for this side-scrolling action RPG, capped at 100 testers worldwide and focused entirely on the battle system ahead of full production.",
+    source: "https://www.gematsu.com/2026/08/tsurugihime-combat-focused-closed-beta-test-set-for-august-25-to-september-6",
+    needs_review: []
   },
   {
-    id: "wraithbound",
-    title: "Wraithbound",
-    platforms: ["playstation", "pc"],
-    platform_access_type: "unspecified",
-    signup_open_date: "2026-09-05",
-    signup_deadline: "2026-09-15",
-    beta_window: { start: "2026-09-20", end: "2026-09-30" },
-    open_beta_date: "2026-09-27",
-    signup_link: null,
-    description: "Asymmetric horror multiplayer. Signup page not live yet; official announcement confirmed platforms only.",
-    source: "https://example.com/source-wraithbound"
-  },
-  {
-    id: "foundry-9",
-    title: "Foundry 9",
+    id: "cod-modern-warfare-4",
+    title: "Call of Duty: Modern Warfare 4",
     platforms: ["playstation", "xbox", "pc"],
     platform_access_type: "confirmed-simultaneous",
-    signup_open_date: "2026-06-01",
-    signup_deadline: "2026-06-20",
-    beta_window: { start: "2026-07-01", end: "2026-07-10" },
-    open_beta_date: "2026-07-08",
-    signup_link: "https://example.com/foundry-9-beta",
-    description: "Base-building strategy. First closed beta has concluded; a second test is expected before launch.",
-    source: "https://example.com/source-foundry-9"
+    signup_open_date: "2026-07-20",
+    signup_deadline: null,
+    beta_window: { start: "2026-08-21", end: "2026-09-01" },
+    open_beta_date: "2026-08-28",
+    signup_link: null,
+    description: "Multiplayer beta ahead of October's launch. Early access opens first for pre-orders and Game Pass members, then opens to everyone on August 28.",
+    source: "https://www.gematsu.com/2026/07/call-of-duty-modern-warfare-4-open-beta-test-set-for-august-28-to-september-1",
+    needs_review: ["signup_open_date", "signup_link"]
   },
   {
-    id: "redline-circuit",
-    title: "Redline Circuit",
+    id: "crazy-taxi-world-tour",
+    title: "Crazy Taxi: World Tour",
+    platforms: ["playstation", "xbox", "pc"],
+    platform_access_type: "confirmed-simultaneous",
+    signup_open_date: "2026-07-28",
+    signup_deadline: "2026-08-31",
+    beta_window: { start: "2026-09-11", end: "2026-09-13" },
+    open_beta_date: null,
+    signup_link: null,
+    description: "Closed network test focused on the game's online multiplayer modes, Pickup Race and Cops 'N' Cabbies, ahead of the full 2027 release. Only a small number of applicants will be selected.",
+    source: "https://www.gematsu.com/2026/07/crazy-taxi-world-tour-closed-network-test-set-for-september-11-to-13",
+    needs_review: ["signup_link"]
+  },
+  {
+    id: "gears-of-war-e-day",
+    title: "Gears of War: E-Day",
     platforms: ["xbox", "pc"],
-    platform_access_type: "unspecified",
-    signup_open_date: "2026-08-25",
-    signup_deadline: "2026-09-25",
-    beta_window: { start: "2026-10-05", end: "2026-10-15" },
-    open_beta_date: "2026-10-12",
-    signup_link: "https://example.com/redline-circuit-beta",
-    description: "Arcade racing with live-service seasons. Long signup window ahead of an October test weekend.",
-    source: "https://example.com/source-redline-circuit"
+    platform_access_type: "confirmed-simultaneous",
+    signup_open_date: "2026-06-07",
+    signup_deadline: null,
+    beta_window: { start: "2026-08-06", end: "2026-08-17" },
+    open_beta_date: "2026-08-13",
+    signup_link: null,
+    description: "Two multiplayer beta weekends ahead of October's launch: early access for pre-orders and Game Pass members first, then open to everyone for the second weekend.",
+    source: "https://www.purexbox.com/guides/gears-of-war-e-day-open-beta-dates-start-times-and-xbox-game-pass-details",
+    needs_review: ["signup_open_date", "signup_link"]
   },
   {
-    id: "ironclad-horizon",
-    title: "Ironclad Horizon",
+    id: "marvel-tokon-fighting-souls",
+    title: "MARVEL Tokon: Fighting Souls",
+    platforms: ["playstation", "pc"],
+    platform_access_type: "unspecified",
+    signup_open_date: "2026-07-17",
+    signup_deadline: null,
+    beta_window: { start: "2026-07-24", end: "2026-07-26" },
+    open_beta_date: "2026-07-24",
+    signup_link: null,
+    description: "Open beta test for Arc System Works' 4v4 tag-team fighting game set in the Marvel universe.",
+    source: "https://www.gematsu.com/tag/betas",
+    needs_review: ["signup_open_date", "signup_link", "platform_access_type"]
+  },
+  {
+    id: "time-takers",
+    title: "TIME TAKERS",
     platforms: ["pc"],
     platform_access_type: "unspecified",
-    signup_open_date: "2026-07-15",
-    signup_deadline: "2026-08-01",
-    beta_window: { start: "2026-08-15", end: "2026-09-10" },
-    open_beta_date: "2026-08-20",
-    signup_link: "https://example.com/ironclad-horizon-beta",
-    description: "Turn-based tactics with a persistent campaign. Now past its invite-only phase. Everyone can join.",
-    source: "https://example.com/source-ironclad-horizon"
-  },
-  {
-    id: "northbound-signal",
-    title: "Northbound Signal",
-    platforms: ["xbox"],
-    platform_access_type: "unspecified",
-    signup_open_date: "2026-08-18",
-    signup_deadline: "2026-09-05",
-    beta_window: { start: "2026-09-10", end: "2026-09-20" },
-    open_beta_date: "2026-09-17",
-    signup_link: "https://example.com/northbound-signal-beta",
-    description: "Cooperative heist thriller. First public test after a long closed alpha.",
-    source: "https://example.com/source-northbound-signal"
-  },
-  {
-    id: "ironvale-assault",
-    title: "Ironvale Assault",
-    platforms: ["xbox"],
-    platform_access_type: "unspecified",
-    signup_open_date: "2026-07-20",
-    signup_deadline: "2026-08-10",
-    beta_window: { start: "2026-08-22", end: "2026-09-02" },
-    open_beta_date: "2026-08-29",
-    signup_link: "https://example.com/ironvale-assault-beta",
-    description: "Squad-based tactical shooter. Closed beta now underway ahead of a wider open weekend.",
-    source: "https://example.com/source-ironvale-assault"
+    signup_open_date: "2026-08-24",
+    signup_deadline: null,
+    beta_window: { start: "2026-09-05", end: "2026-09-08" },
+    open_beta_date: "2026-09-05",
+    signup_link: null,
+    description: "72-hour global multiplayer playtest for this time-survival shooter, open to any player who requests access, building on feedback from an earlier closed test in March.",
+    source: "https://www.invenglobal.com/articles/25059/ncs-time-takers-to-run-steam-playtest-starting-september-5",
+    needs_review: ["signup_link"]
   }
 ];

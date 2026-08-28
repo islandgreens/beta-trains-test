@@ -14,20 +14,23 @@
 
 <header class="board">
   <div class="board__frame">
-    <div class="board__inner">
-      <div class="board__row">
-        <div class="board__wordmark">
-          <h1 class="board__title">
-            <img class="board__logo" src="assets/logo.png" alt="The Beta Train">
-          </h1>
-          <span class="board__blurb">Never miss your departure. Every beta on one timetable.</span>
-          <span class="board__subtitle">Boarding calls for PlayStation, Xbox &amp; PC beta tests</span>
-        </div>
-        <div class="board__clock" id="board-clock" aria-live="off">
-          <span class="board__clock-label">Today</span>
-          <span class="board__clock-value" id="board-clock-value">&mdash;</span>
-        </div>
-      </div>
+    <img class="board__corner board__corner--tl" src="assets/corner-tl.png" alt="" aria-hidden="true">
+    <img class="board__corner board__corner--tr" src="assets/corner-tr.png" alt="" aria-hidden="true">
+    <img class="board__corner board__corner--bl" src="assets/corner-bl.png" alt="" aria-hidden="true">
+    <img class="board__corner board__corner--br" src="assets/corner-br.png" alt="" aria-hidden="true">
+
+    <div class="board__clock" id="board-clock" aria-live="off">
+      <span class="board__clock-label">Today</span>
+      <span class="board__clock-value" id="board-clock-value">&mdash;</span>
+    </div>
+
+    <div class="board__content">
+      <h1 class="board__title">
+        <img class="board__logo" src="assets/logo.png" alt="The Beta Train">
+      </h1>
+      <span class="board__hook">Never miss your departure</span>
+      <span class="board__divider" aria-hidden="true"></span>
+      <span class="board__explainer">PlayStation, Xbox, and PC betas, tracked before they leave the station.</span>
     </div>
   </div>
 </header>
