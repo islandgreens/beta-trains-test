@@ -31,19 +31,17 @@
 </header>
 
 <nav class="controls" aria-label="Calendar controls">
-  <div class="board__clock" id="board-clock" aria-live="off">
-    <span class="board__clock-label">Today</span>
-    <span class="board__clock-value" id="board-clock-value">&mdash;</span>
-  </div>
+  <div class="controls__inner">
+    <div class="board__clock" id="board-clock" aria-live="off">
+      <span class="board__clock-label">Today</span>
+      <span class="board__clock-value" id="board-clock-value">&mdash;</span>
+    </div>
 
-  <div class="controls__right">
     <div class="controls__month">
       <button type="button" class="icon-btn" id="prev-month" aria-label="Previous month">&#8249;</button>
       <h2 class="controls__month-label" id="month-label">&nbsp;</h2>
       <button type="button" class="icon-btn" id="next-month" aria-label="Next month">&#8250;</button>
     </div>
-
-    <div class="controls__divider" aria-hidden="true"></div>
 
     <div class="controls__filter-groups">
       <div class="controls__filters" role="group" aria-label="Filter by platform">
