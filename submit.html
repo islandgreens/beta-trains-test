@@ -167,7 +167,7 @@
 
       if (response.ok) {
         form.hidden = true;
-        messageBox.innerHTML = `<div class="form-message form-message--success">Thanks — this has been sent through. I'll check it against an official source and add it if it holds up.</div>`;
+        messageBox.innerHTML = `<div class="form-message form-message--success">Ticket received, thank you! Next stop: verification, then onto the departures board if everything lines up.</div>`;
       } else {
         const data = await response.json().catch(() => null);
         const detail = data?.errors?.map(e => e.message).join(", ");
