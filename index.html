@@ -3,118 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Beta Train — choose a design</title>
-<meta name="description" content="The Beta Train — pick a design to preview.">
-<style>
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0; min-height: 100%;
-    background: #14100d;
-    color: #f2ece0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    display: flex; align-items: center; justify-content: center;
-    padding: 32px 20px;
-  }
-  main { max-width: 780px; width: 100%; text-align: center; }
-  h1 {
-    font-size: clamp(26px, 4vw, 38px);
-    margin: 0 0 6px;
-    letter-spacing: 0.01em;
-  }
-  p.tagline {
-    margin: 0 0 40px;
-    color: #a89e8f;
-    font-size: 14px;
-  }
-  .options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  @media (max-width: 560px) {
-    .options { grid-template-columns: 1fr; }
-  }
-  a.card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    border-radius: 14px;
-    padding: 28px 22px;
-    border: 1px solid rgba(255,255,255,0.08);
-    text-align: left;
-    transition: transform 0.15s ease, border-color 0.15s ease;
-  }
-  a.card:hover { transform: translateY(-2px); }
-  .card--modern {
-    background: linear-gradient(155deg, #191c29 0%, #14161f 100%);
-  }
-  .card--modern:hover { border-color: #a465ff; }
-  .card--steam {
-    background: linear-gradient(155deg, #2c1e15 0%, #201510 100%);
-  }
-  .card--steam:hover { border-color: #b08d47; }
-  .card h2 {
-    margin: 0 0 6px;
-    font-size: 19px;
-  }
-  .card--modern h2 { font-family: "Georgia", serif; letter-spacing: 0.01em; }
-  .card--steam h2 { font-family: Georgia, serif; }
-  .card p {
-    margin: 0 0 16px;
-    font-size: 13px;
-    line-height: 1.55;
-    color: #b5ada0;
-  }
-  .swatches { display: flex; gap: 6px; margin-bottom: 4px; }
-  .swatch { width: 16px; height: 16px; border-radius: 4px; }
-  .card--modern .swatch:nth-child(1) { background: #2f7cff; }
-  .card--modern .swatch:nth-child(2) { background: #3ddc57; }
-  .card--modern .swatch:nth-child(3) { background: #ff8a3d; }
-  .card--modern .swatch:nth-child(4) { background: #a465ff; }
-  .card--steam .swatch { border-radius: 2px; }
-  .card--steam .swatch:nth-child(1) { background: #24537c; }
-  .card--steam .swatch:nth-child(2) { background: #35563a; }
-  .card--steam .swatch:nth-child(3) { background: #a8571c; }
-  .card--steam .swatch:nth-child(4) { background: #b08d47; }
-  .go {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #8b8378;
-  }
-  footer {
-    margin-top: 34px;
-    font-size: 12px;
-    color: #6b6459;
-  }
-</style>
+<title>The Beta Train</title>
+<meta name="description" content="A calendar of upcoming and active video game betas across PlayStation, Xbox, and PC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<main>
-  <h1>The Beta Train</h1>
-  <p class="tagline">Two designs, same data. Pick one to preview.</p>
 
-  <div class="options">
-    <a class="card card--modern" href="betatrainmodern/">
-      <div class="swatches">
-        <span class="swatch"></span><span class="swatch"></span><span class="swatch"></span><span class="swatch"></span>
-      </div>
-      <h2>betatrainmodern</h2>
-      <p>Sleek, vibrant, dark game-launcher aesthetic with a bullet train and glowing filter chips.</p>
-      <span class="go">View design &rarr;</span>
-    </a>
+<header class="board">
+  <div class="board__frame">
+    <img class="board__corner board__corner--tl" src="assets/corner-tl.png" alt="" aria-hidden="true">
+    <img class="board__corner board__corner--tr" src="assets/corner-tr.png" alt="" aria-hidden="true">
+    <img class="board__corner board__corner--bl" src="assets/corner-bl.png" alt="" aria-hidden="true">
+    <img class="board__corner board__corner--br" src="assets/corner-br.png" alt="" aria-hidden="true">
 
-    <a class="card card--steam" href="betatrainsteam/">
-      <div class="swatches">
-        <span class="swatch"></span><span class="swatch"></span><span class="swatch"></span><span class="swatch"></span>
-      </div>
-      <h2>betatrainsteam</h2>
-      <p>Victorian train-terminus aesthetic — brick, iron, brass, and cream enamel signage.</p>
-      <span class="go">View design &rarr;</span>
-    </a>
+    <div class="board__content">
+      <h1 class="board__title">
+        <img class="board__logo" src="assets/logo.png" alt="The Beta Train">
+      </h1>
+      <span class="board__hook">Never miss your departure</span>
+      <span class="board__divider" aria-hidden="true"></span>
+      <span class="board__explainer">PlayStation, Xbox, and PC betas, tracked before they leave the station.</span>
+    </div>
+  </div>
+</header>
+
+<nav class="controls" aria-label="Calendar controls">
+  <div class="board__clock" id="board-clock" aria-live="off">
+    <span class="board__clock-label">Today</span>
+    <span class="board__clock-value" id="board-clock-value">&mdash;</span>
   </div>
 
-  <footer>Testing build — not the final site structure. <a href="about.html" style="color:inherit;">About</a> &middot; <a href="submit.html" style="color:inherit;">Submit a beta</a></footer>
+  <div class="controls__filter-groups">
+    <div class="controls__filters" role="group" aria-label="Filter by platform">
+      <button type="button" class="filter-btn filter-btn--playstation" data-filter-group="platform" data-platform="playstation">
+        <span class="filter-btn__flag filter-btn__flag--playstation"></span>PlayStation
+      </button>
+      <button type="button" class="filter-btn filter-btn--xbox" data-filter-group="platform" data-platform="xbox">
+        <span class="filter-btn__flag filter-btn__flag--xbox"></span>Xbox
+      </button>
+      <button type="button" class="filter-btn filter-btn--pc" data-filter-group="platform" data-platform="pc">
+        <span class="filter-btn__flag filter-btn__flag--pc"></span>PC
+      </button>
+    </div>
+
+    <div class="controls__divider" aria-hidden="true"></div>
+
+    <div class="controls__filters" role="group" aria-label="Filter by event type">
+      <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="upcoming">Opening soon</button>
+      <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="signup-open">Signups open</button>
+      <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="beta-live">Live now</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="month-nav">
+    <button type="button" class="icon-btn" id="prev-month" aria-label="Previous month">&#8249;</button>
+    <h2 class="controls__month-label" id="month-label">&nbsp;</h2>
+    <button type="button" class="icon-btn" id="next-month" aria-label="Next month">&#8250;</button>
+  </div>
+
+  <section class="calendar" aria-label="Beta calendar">
+    <div class="calendar__weekdays" id="weekdays"></div>
+    <div class="calendar__grid" id="calendar-grid"></div>
+  </section>
+
+  <section class="legend" aria-label="Legend">
+    <h2 class="legend__title">Reading the board</h2>
+    <ul class="legend__list">
+      <li><span class="legend__swatch legend__swatch--playstation"></span>PlayStation exclusive</li>
+      <li><span class="legend__swatch legend__swatch--xbox"></span>Xbox exclusive</li>
+      <li><span class="legend__swatch legend__swatch--pc"></span>PC exclusive</li>
+      <li><span class="legend__swatch legend__swatch--cross"></span>Available on multiple platforms</li>
+      <li><span class="legend__swatch legend__swatch--grey"></span>Signup deadline passed</li>
+      <li><span class="legend__swatch legend__swatch--concluded"></span>Beta concluded</li>
+    </ul>
+    <p class="legend__note">Tinted bars mark the signup window. Solid bars mark the beta itself. Open a day to see whether a beta is currently invite-only or open to everyone. This board is seeded with placeholder titles for layout testing, not live data.</p>
+  </section>
+
+  <p style="text-align:center; margin-top:24px;"><a href="about.html" style="color:var(--ink-faint); font-family:var(--font-mono); font-size:12px;">About this site</a> &middot; <a href="submit.html" style="color:var(--ink-faint); font-family:var(--font-mono); font-size:12px;">Submit a beta</a><br><span style="font-family:var(--font-mono); font-size:10px; color:var(--ink-faint); opacity:0.6;">v1</span></p>
 </main>
+
+<div class="overlay" id="overlay" hidden></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panel-title" hidden>
+  <div class="panel__header">
+    <h2 class="panel__title" id="panel-title">&nbsp;</h2>
+    <button type="button" class="icon-btn" id="panel-close" aria-label="Close">&#10005;</button>
+  </div>
+  <div class="panel__body" id="panel-body"></div>
+</aside>
+
+<script src="shared/data.js"></script>
+<script src="shared/logic.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

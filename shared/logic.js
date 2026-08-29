@@ -1,8 +1,7 @@
 /*
-  Shared logic for every Beta Train design. Date math, status computation,
-  and labels live here so betatrainmodern and betatrainsteam (and anything
-  added later) can never drift out of sync on what a status actually means.
-  Only rendering and styling belong in each design's own js/app.js.
+  Shared date, status, and label logic for the site. Lives here rather than
+  in js/app.js so status rules stay in one place. Only rendering and styling
+  belong in js/app.js.
 */
 
 function parseYMD(str) {

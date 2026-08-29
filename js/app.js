@@ -1,84 +1,17 @@
-/* ---------- date helpers ---------- */
-
-function parseYMD(str) {
-  const [y, m, d] = str.split("-").map(Number);
-  return new Date(y, m - 1, d);
-}
-
-function startOfToday() {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-}
-
-function addDays(date, n) {
-  const d = new Date(date);
-  d.setDate(d.getDate() + n);
-  return d;
-}
-
-function sameDate(a, b) {
-  return a.getFullYear() === b.getFullYear() &&
-         a.getMonth() === b.getMonth() &&
-         a.getDate() === b.getDate();
-}
-
-function inRange(date, start, end) {
-  return date >= start && date <= end;
-}
-
-const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const MONTH_LABELS = ["January","February","March","April","May","June",
-  "July","August","September","October","November","December"];
-
-/* ---------- status + color logic ---------- */
+/*
+  Rendering logic only — date math, status computation, and labels come from
+  ../shared/logic.js and ../shared/data.js, loaded before this file.
+*/
 
 const PLATFORM_COLOR_VAR = {
-  playstation: "--accent-playstation",
-  xbox: "--accent-xbox",
-  pc: "--accent-pc"
+  playstation: "--signal-blue",
+  xbox: "--heritage-green",
+  pc: "--lamp-amber",
+  cross: "--mourning-plum"
 };
 
-const PLATFORM_LABEL = {
-  playstation: "PlayStation",
-  xbox: "Xbox",
-  pc: "PC"
-};
-
-const STATUS_LABEL = {
-  upcoming: "Upcoming",
-  "signup-open": "Signup open",
-  "missed-deadline": "Signup closed",
-  "beta-live": "Beta live",
-  concluded: "Concluded"
-};
-
-function computeStatus(entry, today) {
-  const open = parseYMD(entry.signup_open_date);
-  const deadline = entry.signup_deadline ? parseYMD(entry.signup_deadline) : null;
-  const betaStart = parseYMD(entry.beta_window.start);
-  const betaEnd = parseYMD(entry.beta_window.end);
-
-  if (inRange(today, betaStart, betaEnd)) return "beta-live";
-  if (today > betaEnd) return "concluded";
-  if (today < open) return "upcoming";
-  if (deadline && today > deadline) return "missed-deadline";
-  return "signup-open";
-}
-
-function primaryColorVar(entry) {
-  if (entry.platforms.length === 1) return PLATFORM_COLOR_VAR[entry.platforms[0]];
-  return "--accent-cross";
-}
-
-function signupSpan(entry) {
-  const open = parseYMD(entry.signup_open_date);
-  const betaStart = parseYMD(entry.beta_window.start);
-  const end = entry.signup_deadline ? parseYMD(entry.signup_deadline) : addDays(betaStart, -1);
-  return { start: open, end: end < open ? open : end };
-}
-
-function betaSpan(entry) {
-  return { start: parseYMD(entry.beta_window.start), end: parseYMD(entry.beta_window.end) };
+function colorVarFor(entry) {
+  return PLATFORM_COLOR_VAR[platformColorKey(entry)];
 }
 
 /* ---------- app state ---------- */
@@ -87,7 +20,7 @@ const today = startOfToday();
 let viewMonth = today.getMonth();
 let viewYear = today.getFullYear();
 const activePlatforms = new Set();
-const activeEventTypes = new Set(); // subset of: upcoming, signup-open, beta-live
+const activeEventTypes = new Set();
 
 /* ---------- rendering: weekday header ---------- */
 
@@ -100,7 +33,8 @@ function renderWeekdayHeader() {
 
 function entryPassesFilters(entry, status) {
   const platformOk = activePlatforms.size === 0 || entry.platforms.some(p => activePlatforms.has(p));
-  const eventOk = activeEventTypes.size === 0 || activeEventTypes.has(status);
+  const eventOk = activeEventTypes.size === 0 ||
+    Array.from(activeEventTypes).some(f => matchesEventFilter(status, f));
   return platformOk && eventOk;
 }
 
@@ -123,13 +57,13 @@ function getEntriesTouchingDate(date) {
 
 function barStyleFor(entry, status, barType) {
   const classes = [barType === "beta" ? "entry-bar--beta" : "entry-bar--signup"];
-  let colorVar = primaryColorVar(entry);
+  let colorVar = colorVarFor(entry);
 
   if (status === "concluded") {
     classes.push("entry-bar--concluded");
   } else if (status === "missed-deadline") {
     classes.push("entry-bar--missed");
-    colorVar = "--accent-grey";
+    colorVar = "--grey-slate";
   }
   return { classes, colorVar };
 }
@@ -180,16 +114,16 @@ function renderCalendarGrid() {
   });
 }
 
-/* ---------- rendering: detail panel ---------- */
+/* ---------- rendering: detail panel (ticket cards) ---------- */
 
 function formatDateShort(date) {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-function renderEntryCard(entry, status) {
-  const colorVar = status === "concluded" ? "--accent-grey-outline"
-    : status === "missed-deadline" ? "--accent-grey"
-    : primaryColorVar(entry);
+function renderTicket(entry, status) {
+  const colorVar = status === "concluded" ? "--grey-outline"
+    : status === "missed-deadline" ? "--grey-slate"
+    : colorVarFor(entry);
 
   const platformLabels = entry.platforms.map(p => PLATFORM_LABEL[p]).join(" · ");
   const accessNote = entry.platforms.length > 1 && entry.platform_access_type === "selection-during-signup"
@@ -201,22 +135,38 @@ function renderEntryCard(entry, status) {
     ? `<strong>Signup deadline:</strong> ${formatDateShort(parseYMD(entry.signup_deadline))}`
     : `<strong>Signup deadline:</strong> Not announced (rolling admission)`;
 
+  const openBetaLine = entry.open_beta_date
+    ? `<div><strong>Opens to everyone:</strong> ${formatDateShort(parseYMD(entry.open_beta_date))}</div>`
+    : `<div>Invite-only for the entire test</div>`;
+
   const linkHtml = entry.signup_link
-    ? `<a class="entry-card__link" href="${entry.signup_link}" target="_blank" rel="noopener">Sign up for this beta &rarr;</a>`
+    ? `<a class="ticket__link" href="${entry.signup_link}" target="_blank" rel="noopener">Sign up for this beta &rarr;</a>`
     : `<div class="panel__empty" style="margin-top:8px;">No signup link yet</div>`;
 
+  let stampHtml = "";
+  if (status === "closed-beta") {
+    stampHtml = `<div class="ticket__stamp">Invite<br>Only</div>`;
+  } else if (status === "open-beta") {
+    stampHtml = `<div class="ticket__stamp ticket__stamp--open">Open<br>To All</div>`;
+  }
+
+  const statusTagClass = status === "open-beta" ? "tag tag--status tag--filled" : "tag tag--status";
+
   return `
-    <article class="entry-card">
-      <h3 class="entry-card__title">${entry.title}</h3>
-      <div class="entry-card__badges">
-        <span class="badge">${platformLabels}</span>
-        <span class="badge badge--status" style="--badge-color: var(${colorVar});">${STATUS_LABEL[status]}</span>
+    <article class="ticket">
+      ${stampHtml}
+      <h3 class="ticket__title">${entry.title}</h3>
+      <div class="ticket__badges">
+        <span class="tag">${platformLabels}</span>
+        <span class="${statusTagClass}" style="--badge-color: var(${colorVar});">${STATUS_LABEL[status]}</span>
       </div>
-      <p class="entry-card__desc">${entry.description}</p>
-      <div class="entry-card__meta">
+      <p class="ticket__desc">${entry.description}</p>
+      <div class="ticket__perforation"></div>
+      <div class="ticket__stub">
         <div><strong>Signup opens:</strong> ${formatDateShort(parseYMD(entry.signup_open_date))}</div>
         <div>${deadlineLine}</div>
         <div><strong>Beta window:</strong> ${formatDateShort(parseYMD(entry.beta_window.start))} &ndash; ${formatDateShort(parseYMD(entry.beta_window.end))}</div>
+        ${openBetaLine}
         ${accessNote}
         ${accessConfirmed}
       </div>
@@ -237,7 +187,7 @@ function openPanelForDate(date) {
   body.innerHTML = touching.length === 0
     ? `<p class="panel__empty">No betas touch this date${activePlatforms.size || activeEventTypes.size ? " with the current filters" : ""}.</p>`
     : touching.sort((a, b) => a.entry.title.localeCompare(b.entry.title))
-        .map(({ entry, status }) => renderEntryCard(entry, status)).join("");
+        .map(({ entry, status }) => renderTicket(entry, status)).join("");
 
   panel.hidden = false;
   overlay.hidden = false;

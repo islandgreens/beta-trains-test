@@ -1,7 +1,5 @@
 /*
-  BETA_DATA is the entire dataset, shared by every design (betatrainmodern,
-  betatrainsteam, and any future ones). Never duplicate this file per design —
-  add a design, point its index.html at this one via a relative path instead.
+  BETA_DATA is the entire dataset for the site.
 
   Field reference:
     id                    unique slug
