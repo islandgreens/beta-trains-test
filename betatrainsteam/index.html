@@ -19,11 +19,6 @@
     <img class="board__corner board__corner--bl" src="assets/corner-bl.png" alt="" aria-hidden="true">
     <img class="board__corner board__corner--br" src="assets/corner-br.png" alt="" aria-hidden="true">
 
-    <div class="board__clock" id="board-clock" aria-live="off">
-      <span class="board__clock-label">Today</span>
-      <span class="board__clock-value" id="board-clock-value">&mdash;</span>
-    </div>
-
     <div class="board__content">
       <h1 class="board__title">
         <img class="board__logo" src="assets/logo.png" alt="The Beta Train">
@@ -36,31 +31,40 @@
 </header>
 
 <nav class="controls" aria-label="Calendar controls">
-  <div class="controls__month">
-    <button type="button" class="icon-btn" id="prev-month" aria-label="Previous month">&#8249;</button>
-    <h2 class="controls__month-label" id="month-label">&nbsp;</h2>
-    <button type="button" class="icon-btn" id="next-month" aria-label="Next month">&#8250;</button>
+  <div class="board__clock" id="board-clock" aria-live="off">
+    <span class="board__clock-label">Today</span>
+    <span class="board__clock-value" id="board-clock-value">&mdash;</span>
   </div>
 
-  <div class="controls__filter-groups">
-    <div class="controls__filters" role="group" aria-label="Filter by platform">
-      <button type="button" class="filter-btn filter-btn--playstation" data-filter-group="platform" data-platform="playstation">
-        <span class="filter-btn__flag filter-btn__flag--playstation"></span>PlayStation
-      </button>
-      <button type="button" class="filter-btn filter-btn--xbox" data-filter-group="platform" data-platform="xbox">
-        <span class="filter-btn__flag filter-btn__flag--xbox"></span>Xbox
-      </button>
-      <button type="button" class="filter-btn filter-btn--pc" data-filter-group="platform" data-platform="pc">
-        <span class="filter-btn__flag filter-btn__flag--pc"></span>PC
-      </button>
+  <div class="controls__right">
+    <div class="controls__month">
+      <button type="button" class="icon-btn" id="prev-month" aria-label="Previous month">&#8249;</button>
+      <h2 class="controls__month-label" id="month-label">&nbsp;</h2>
+      <button type="button" class="icon-btn" id="next-month" aria-label="Next month">&#8250;</button>
     </div>
 
     <div class="controls__divider" aria-hidden="true"></div>
 
-    <div class="controls__filters" role="group" aria-label="Filter by event type">
-      <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="upcoming">Opening soon</button>
-      <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="signup-open">Signups open</button>
-      <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="beta-live">Live now</button>
+    <div class="controls__filter-groups">
+      <div class="controls__filters" role="group" aria-label="Filter by platform">
+        <button type="button" class="filter-btn filter-btn--playstation" data-filter-group="platform" data-platform="playstation">
+          <span class="filter-btn__flag filter-btn__flag--playstation"></span>PlayStation
+        </button>
+        <button type="button" class="filter-btn filter-btn--xbox" data-filter-group="platform" data-platform="xbox">
+          <span class="filter-btn__flag filter-btn__flag--xbox"></span>Xbox
+        </button>
+        <button type="button" class="filter-btn filter-btn--pc" data-filter-group="platform" data-platform="pc">
+          <span class="filter-btn__flag filter-btn__flag--pc"></span>PC
+        </button>
+      </div>
+
+      <div class="controls__divider" aria-hidden="true"></div>
+
+      <div class="controls__filters" role="group" aria-label="Filter by event type">
+        <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="upcoming">Opening soon</button>
+        <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="signup-open">Signups open</button>
+        <button type="button" class="filter-btn filter-btn--event" data-filter-group="event" data-event="beta-live">Live now</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -84,7 +88,7 @@
     <p class="legend__note">Tinted bars mark the signup window. Solid bars mark the beta itself. Open a day to see whether a beta is currently invite-only or open to everyone. This board is seeded with placeholder titles for layout testing, not live data.</p>
   </section>
 
-  <p style="text-align:center; margin-top:24px;"><a href="../about.html" style="color:var(--ink-faint); font-family:var(--font-mono); font-size:12px;">About this site</a></p>
+  <p style="text-align:center; margin-top:24px;"><a href="../about.html" style="color:var(--ink-faint); font-family:var(--font-mono); font-size:12px;">About this site</a> &middot; <a href="../submit.html" style="color:var(--ink-faint); font-family:var(--font-mono); font-size:12px;">Submit a beta</a></p>
 </main>
 
 <div class="overlay" id="overlay" hidden></div>

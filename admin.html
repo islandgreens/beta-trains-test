@@ -223,6 +223,13 @@ function slugify(str) {
 
 let sortReviewFirst = false;
 
+function effectiveReview(e) {
+  // Once a beta has concluded, unverified fields aren't actionable anymore —
+  // don't flag it for attention, even though the underlying data is untouched.
+  if (computeStatus(e, today) === "concluded") return [];
+  return e.needs_review || [];
+}
+
 function renderList() {
   const list = document.getElementById("entry-list");
   if (entries.length === 0) {
@@ -233,12 +240,12 @@ function renderList() {
   // Keep original array indices attached so edit/delete still target the right entry after sorting.
   let indexed = entries.map((e, i) => ({ e, i }));
   if (sortReviewFirst) {
-    indexed = indexed.slice().sort((a, b) => (b.e.needs_review?.length || 0) - (a.e.needs_review?.length || 0));
+    indexed = indexed.slice().sort((a, b) => effectiveReview(b.e).length - effectiveReview(a.e).length);
   }
 
   list.innerHTML = indexed.map(({ e, i }) => {
     const status = computeStatus(e, today);
-    const review = e.needs_review || [];
+    const review = effectiveReview(e);
     const reviewBadge = review.length > 0
       ? `<span class="review-badge">${review.length} to verify</span>`
       : `<span class="review-badge review-badge--clean">verified</span>`;

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit a beta — The Beta Train</title>
+<meta name="description" content="Tell us about a beta we're missing. Every submission is checked by hand before it's added.">
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100%;
+    background: #14100d;
+    color: #f2ece0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  body { padding: 48px 20px 60px; }
+  main { max-width: 560px; margin: 0 auto; }
+  a.back {
+    display: inline-block; margin-bottom: 28px;
+    color: #a89e8f; text-decoration: none; font-size: 13px;
+  }
+  a.back:hover { color: #f2ece0; }
+  h1 { font-size: clamp(24px, 4vw, 30px); margin: 0 0 8px; letter-spacing: 0.01em; }
+  p.lead { font-size: 14.5px; line-height: 1.6; color: #b5ada0; margin: 0 0 32px; }
+
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #d6cec0; }
+  .field .hint { font-size: 12px; color: #8b8378; margin-top: 4px; }
+  .field input[type="text"], .field input[type="url"], .field input[type="email"],
+  .field input[type="date"], .field textarea {
+    width: 100%; padding: 10px 12px; background: #1e1a15; border: 1px solid #3a352c;
+    border-radius: 6px; color: #f2ece0; font-family: inherit; font-size: 14px;
+  }
+  .field input:focus, .field textarea:focus { outline: 2px solid #6b5a3a; outline-offset: 1px; }
+  .field textarea { min-height: 80px; resize: vertical; }
+
+  .checkbox-row { display: flex; gap: 18px; flex-wrap: wrap; }
+  .checkbox-row label {
+    display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 400; color: #f2ece0;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+
+  .required-mark { color: #c98a4a; }
+
+  button[type="submit"] {
+    font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+    background: #3d6bd6; color: #fff; border: none;
+    border-radius: 8px; padding: 12px 24px; margin-top: 8px;
+  }
+  button[type="submit"]:hover { background: #4a78e0; }
+  button[type="submit"]:disabled { background: #3a352c; color: #8b8378; cursor: not-allowed; }
+
+  .form-message {
+    padding: 14px 16px; border-radius: 8px; font-size: 14px; line-height: 1.6; margin-top: 18px;
+  }
+  .form-message--success { background: rgba(61, 138, 74, 0.15); border: 1px solid rgba(61, 138, 74, 0.4); color: #a8e0b0; }
+  .form-message--error { background: rgba(122, 43, 43, 0.15); border: 1px solid rgba(122, 43, 43, 0.4); color: #f0b0b0; }
+
+  /* honeypot — hidden from real visitors, visible to naive bots scraping form fields */
+  .hp-field { position: absolute; left: -9999px; top: -9999px; }
+
+  footer { margin-top: 44px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 12px; color: #6b6459; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index.html">&larr; Back</a>
+
+  <h1>Submit a beta</h1>
+  <p class="lead">Know about a beta that isn't on the calendar yet? Send it over. Every submission gets checked by hand against an official source before it's added, so it's fine if you don't have every field, just send what you know.</p>
+
+  <form id="submit-form">
+    <div class="hp-field" aria-hidden="true">
+      <label for="_gotcha">Leave this field blank</label>
+      <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label for="title">Game title <span class="required-mark">*</span></label>
+      <input type="text" id="title" name="title" required>
+    </div>
+
+    <div class="field">
+      <label for="signup_link">Official signup link <span class="required-mark">*</span></label>
+      <input type="url" id="signup_link" name="signup_link" placeholder="https://" required>
+      <div class="hint">The actual page where someone would sign up, not a news article about it.</div>
+    </div>
+
+    <div class="field">
+      <label>Platforms (check any that apply)</label>
+      <div class="checkbox-row">
+        <label><input type="checkbox" name="platforms" value="PlayStation"> PlayStation</label>
+        <label><input type="checkbox" name="platforms" value="Xbox"> Xbox</label>
+        <label><input type="checkbox" name="platforms" value="PC"> PC</label>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label for="signup_open_date">Signup opens (if known)</label>
+        <input type="date" id="signup_open_date" name="signup_open_date">
+      </div>
+      <div class="field">
+        <label for="signup_deadline">Signup deadline (if known)</label>
+        <input type="date" id="signup_deadline" name="signup_deadline">
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label for="beta_start">Beta window start (if known)</label>
+        <input type="date" id="beta_start" name="beta_start">
+      </div>
+      <div class="field">
+        <label for="beta_end">Beta window end (if known)</label>
+        <input type="date" id="beta_end" name="beta_end">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="source">Where did you see this?</label>
+      <input type="text" id="source" name="source" placeholder="Article link, tweet, official post, etc.">
+    </div>
+
+    <div class="field">
+      <label for="notes">Anything else worth knowing?</label>
+      <textarea id="notes" name="notes" placeholder="Open or closed beta, region restrictions, anything you noticed"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="contact">Your email (optional)</label>
+      <input type="email" id="contact" name="contact" placeholder="Only if you're OK with being asked a follow-up question">
+    </div>
+
+    <button type="submit" id="submit-btn">Send submission</button>
+
+    <div id="form-message" role="status"></div>
+  </form>
+
+  <footer>The Beta Train</footer>
+</main>
+
+<script>
+  const FORM_ENDPOINT = "https://formspree.io/f/xvkooewl";
+  const form = document.getElementById("submit-form");
+  const submitBtn = document.getElementById("submit-btn");
+  const messageBox = document.getElementById("form-message");
+
+  form.addEventListener("submit", async (evt) => {
+    evt.preventDefault();
+    messageBox.innerHTML = "";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+
+    const formData = new FormData(form);
+    const titleValue = formData.get("title") || "a game";
+    formData.set("_subject", `New Beta Train submission: ${titleValue}`);
+
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        body: formData,
+        headers: { "Accept": "application/json" }
+      });
+
+      if (response.ok) {
+        form.hidden = true;
+        messageBox.innerHTML = `<div class="form-message form-message--success">Thanks — this has been sent through. I'll check it against an official source and add it if it holds up.</div>`;
+      } else {
+        const data = await response.json().catch(() => null);
+        const detail = data?.errors?.map(e => e.message).join(", ");
+        messageBox.innerHTML = `<div class="form-message form-message--error">Something went wrong sending this${detail ? `: ${detail}` : "."} Nothing was lost — try again in a moment.</div>`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send submission";
+      }
+    } catch (err) {
+      messageBox.innerHTML = `<div class="form-message form-message--error">Couldn't reach the submission service. Check your connection and try again.</div>`;
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send submission";
+    }
+  });
+</script>
+</body>
+</html>
