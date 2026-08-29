@@ -11,15 +11,16 @@
   --enamel: #f5efdd;
   --enamel-alt: #ece1c4;
   --enamel-border: #382a1c;
+  --day-bg: #d9c9a0;
 
   --ink: #2a1f14;
   --ink-muted: #6b5a44;
   --ink-faint: #9c8b6e;
 
-  --signal-blue: #2f74b8;
-  --heritage-green: #3d8a4a;
-  --lamp-amber: #d97a1f;
-  --mourning-plum: #7d4f80;
+  --signal-blue: #1c4d80;
+  --heritage-green: #25612e;
+  --lamp-amber: #8f4310;
+  --mourning-plum: #5a2f5f;
   --grey-slate: #756a5a;
   --grey-outline: #a89b83;
 
@@ -105,6 +106,7 @@ button { font-family: inherit; cursor: pointer; }
   padding: 6px 14px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
+  justify-self: start;
 }
 
 .board__clock-label { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
@@ -162,26 +164,24 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ===== Controls ===== */
 .controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 14px 24px;
+  padding: 14px 0;
   background-color: var(--wood-bg-alt);
   background-image: var(--tex-wood);
   background-blend-mode: overlay;
   border-bottom: 3px solid var(--iron);
 }
 
-.controls__right {
-  display: flex;
+.controls__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.controls__month { display: flex; align-items: center; gap: 12px; }
+.controls__month { display: flex; align-items: center; gap: 12px; justify-self: center; }
 .controls__month-label { font-family: var(--font-display); font-weight: 400; font-size: 16px; min-width: 150px; text-align: center; margin: 0; color: var(--enamel); }
 
 .icon-btn {
@@ -198,7 +198,7 @@ button { font-family: inherit; cursor: pointer; }
 .icon-btn:hover { border-color: var(--brass-bright); box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 0 10px -1px var(--brass); }
 .icon-btn:active { transform: scale(0.92); }
 
-.controls__filter-groups { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.controls__filter-groups { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-self: end; }
 .controls__divider { width: 1px; height: 22px; background: var(--iron); }
 .controls__filters { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -240,11 +240,11 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
 
 .day {
   position: relative;
-  background-color: #d9c9a0;
+  background-color: var(--day-bg);
   background-image: var(--tex-enamel-soft);
   background-blend-mode: multiply;
   border: 2px solid var(--enamel-border);
-  border-radius: var(--radius-sm);
+  border-radius: 8px;
   min-height: 96px;
   padding: 6px 6px 7px;
   display: flex;
@@ -260,15 +260,15 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
 .day--empty { background: transparent; border-color: transparent; filter: none; cursor: default; }
 .day--today { border-color: var(--brass-bright); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.32)) drop-shadow(0 0 9px var(--brass-bright)); }
 
-.day__num { font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); text-align: center; }
+.day__num { font-family: var(--font-mono); font-size: 11px; color: #4a3c2a; text-align: center; }
 .day--today .day__num { color: var(--ink); font-weight: 700; }
 
 .day__entries { display: flex; flex-direction: column; gap: 3px; }
 
 .entry-bar { height: 11px; border-radius: 2px; font-size: 0; overflow: hidden; }
-.entry-bar--signup { background: color-mix(in srgb, var(--bar-color, var(--mourning-plum)) 30%, var(--enamel)); border: 1.5px solid var(--bar-color, var(--mourning-plum)); }
+.entry-bar--signup { background: color-mix(in srgb, var(--bar-color, var(--mourning-plum)) 50%, var(--day-bg)); border: 1.5px solid var(--bar-color, var(--mourning-plum)); }
 .entry-bar--beta { background: var(--bar-color, var(--mourning-plum)); }
-.entry-bar--missed { border-color: var(--grey-slate); background: color-mix(in srgb, var(--grey-slate) 25%, var(--enamel)); }
+.entry-bar--missed { border-color: var(--grey-slate); background: color-mix(in srgb, var(--grey-slate) 45%, var(--day-bg)); }
 .entry-bar--concluded { background: transparent; border: 1.5px dashed var(--grey-outline); }
 
 .day__more { font-family: var(--font-mono); font-size: 9.5px; color: var(--ink-faint); text-align: center; }
@@ -380,8 +380,11 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
   .board__hook { font-size: 15px; margin-top: 8px; }
   .board__divider { width: 50px; margin: 7px 0; }
   .board__explainer { font-size: 12px; max-width: 190px; margin: 0 auto; }
-  .controls { padding: 12px 16px; gap: 14px; }
-  .controls__right { gap: 14px; }
+  .controls { padding: 12px 0; }
+  .controls__inner { padding: 0 16px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .board__clock { justify-self: unset; }
+  .controls__month { justify-self: unset; }
+  .controls__filter-groups { justify-self: unset; justify-content: center; }
   main { padding: 18px 14px 32px; }
   .day { border-width: 1.5px; min-height: 66px; padding: 4px; }
   .day__num { font-size: 10px; }
