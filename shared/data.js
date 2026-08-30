@@ -72,10 +72,10 @@ const BETA_DATA = [
     signup_deadline: "2026-08-31",
     beta_window: { start: "2026-09-11", end: "2026-09-13" },
     open_beta_date: null,
-    signup_link: null,
+    signup_link: "https://www.sega.com/crazy-taxi/crazy-taxi-world-tour?tab=closed-network-test",
     description: "Closed network test focused on the game's online multiplayer modes, Pickup Race and Cops 'N' Cabbies, ahead of the full 2027 release. Only a small number of applicants will be selected.",
     source: "https://www.gematsu.com/2026/07/crazy-taxi-world-tour-closed-network-test-set-for-september-11-to-13",
-    needs_review: ["signup_link"]
+    needs_review: []
   },
   {
     id: "gears-of-war-e-day",

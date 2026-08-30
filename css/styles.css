@@ -132,7 +132,7 @@ button { font-family: inherit; cursor: pointer; }
   height: 190px;
   max-width: 90%;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
-  transform: translateX(8px);
+  transform: translateX(16px);
 }
 
 .board__hook {
@@ -379,7 +379,7 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
   .board__frame { min-height: 190px; padding: 14px; }
   .board__corner { width: 64px; }
   .board__clock { padding: 5px 10px; }
-  .board__logo { height: 100px; }
+  .board__logo { height: 100px; transform: translateX(8px); }
   .board__hook { font-size: 15px; margin-top: 8px; }
   .board__divider { width: 50px; margin: 7px 0; }
   .board__explainer { font-size: 12px; max-width: 190px; margin: 0 auto; }

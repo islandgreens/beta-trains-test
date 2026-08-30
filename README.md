@@ -62,7 +62,7 @@ shown on the detail cards, not used for filtering.
 
 ## Versioning
 
-The footer shows a small version number (currently v2), incremented each time a build
+The footer shows a small version number (currently v3), incremented each time a build
 goes out. The zip filename carries the same number. There's no shared source for this
 number, it's hand-set in the page footer each round.
 
