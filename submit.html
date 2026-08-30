@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Submit a beta — The Beta Train</title>
+<title>Submit a beta | The Beta Train</title>
+<link rel="icon" type="image/png" href="assets/favicon-32.png">
 <meta name="description" content="Tell us about a beta we're missing. Every submission is checked by hand before it's added.">
 <style>
   * { box-sizing: border-box; }
@@ -171,7 +172,7 @@
       } else {
         const data = await response.json().catch(() => null);
         const detail = data?.errors?.map(e => e.message).join(", ");
-        messageBox.innerHTML = `<div class="form-message form-message--error">Something went wrong sending this${detail ? `: ${detail}` : "."} Nothing was lost — try again in a moment.</div>`;
+        messageBox.innerHTML = `<div class="form-message form-message--error">Something went wrong sending this${detail ? `: ${detail}` : "."} Nothing was lost. Try again in a moment.</div>`;
         submitBtn.disabled = false;
         submitBtn.textContent = "Send submission";
       }

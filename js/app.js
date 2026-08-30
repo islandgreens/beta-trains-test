@@ -92,7 +92,7 @@ function renderCalendarGrid() {
 
     const barsHtml = visible.map(({ entry, status, barType }) => {
       const { classes, colorVar } = barStyleFor(entry, status, barType);
-      return `<span class="entry-bar ${classes.join(" ")}" style="--bar-color: var(${colorVar});" title="${entry.title} — ${STATUS_LABEL[status]}"></span>`;
+      return `<span class="entry-bar ${classes.join(" ")}" style="--bar-color: var(${colorVar});" title="${entry.title}: ${STATUS_LABEL[status]}"></span>`;
     }).join("");
 
     const moreHtml = overflow > 0 ? `<span class="day__more">+${overflow} more</span>` : "";

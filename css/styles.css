@@ -132,6 +132,7 @@ button { font-family: inherit; cursor: pointer; }
   height: 190px;
   max-width: 90%;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
+  transform: translateX(8px);
 }
 
 .board__hook {
@@ -182,7 +183,7 @@ button { font-family: inherit; cursor: pointer; }
   justify-content: center;
   align-items: center;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
 }
 .controls__month-label { font-family: var(--font-display); font-weight: 400; font-size: 16px; min-width: 150px; text-align: center; margin: 0; color: var(--enamel); }
 
@@ -385,7 +386,7 @@ main { padding: 26px 24px 40px; max-width: 1100px; margin: 0 auto; }
   .controls { padding: 12px 16px; flex-direction: column; gap: 12px; }
   .board__clock { position: static; transform: none; left: auto; top: auto; }
   .controls__filter-groups { justify-content: center; }
-  .month-nav { margin-bottom: 14px; }
+  .month-nav { margin-bottom: 22px; }
   main { padding: 18px 14px 32px; }
   .day { border-width: 1.5px; min-height: 66px; padding: 4px; }
   .day__num { font-size: 10px; }
